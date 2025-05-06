@@ -20,26 +20,10 @@ done
 
 echo "Database ready to accept connections."
 
-# Create chatwoot database if it doesn't exist
-sh docker/entrypoints/helpers/create_database.sh
+# Aguardar um tempo fixo para o Rails iniciar
+echo "Waiting for Rails to initialize (15 seconds)..."
+sleep 15
+echo "Starting Sidekiq..."
 
-#install missing gems for local dev as we are using base image compiled for production
-bundle install
-
-BUNDLE="bundle check"
-
-until $BUNDLE
-do
-  sleep 2;
-done
-
-# Execute database migrations
-echo "Running database migrations..."
-bundle exec rails db:prepare
-
-# Create initial admin user if not exists
-echo "Running database seeds to create admin user..."
-bundle exec rails db:seed
-
-# Execute the main process of the container
-exec "$@"
+# Execute the sidekiq command
+exec "$@" 

@@ -29,9 +29,11 @@ services:
     depends_on:
       - postgres
       - redis
+      - rails
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
+    entrypoint: docker/entrypoints/sidekiq.sh
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
