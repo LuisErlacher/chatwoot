@@ -1,3 +1,13 @@
+# feat: add prompt suggestions and June events (#10726)
+
+# This PR adds the following two features
+
+# 1. Prompt suggestions to get started with Copilot Chat
+# 2. June events for each action
+
+# [CleanShot 2025-01-20 at 21 00
+# 52@2x](https://github.com/user-attachments/assets/d73e7982-0f78-4d85-873e-da2c16762688)
+
 module Captain::ChatHelper
   def search_documentation_tool
     {

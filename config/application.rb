@@ -38,6 +38,12 @@ module Chatwoot
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # Configuration for internationalization
+    config.i18n.default_locale = :pt_BR
+    config.i18n.available_locales = [:en, :pt_BR]
+    config.i18n.fallbacks = [I18n.default_locale]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('enterprise/lib')
     config.eager_load_paths << Rails.root.join('enterprise/listeners')

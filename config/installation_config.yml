@@ -32,11 +32,11 @@
 - name: BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Brand URL'
-  description: 'The URL that would be used in emails under the section “Powered By”'
+  description: 'The URL that would be used in emails under the section "Powered By"'
 - name: WIDGET_BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Widget Brand URL'
-  description: 'The URL that would be used in the widget under the section “Powered By”'
+  description: 'The URL that would be used in the widget under the section "Powered By"'
 - name: BRAND_NAME
   value: 'Chatwoot'
   display_title: 'Brand Name'
@@ -319,3 +319,104 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+
+# ------- AutomatizaSE Specific Configuration ------- #
+- name: AUTOMATIZASE_ENABLED
+  display_title: 'Enable AutomatizaSE Features'
+  value: true
+  locked: false
+  description: 'Enable or disable AutomatizaSE specific automation features'
+  type: boolean
+- name: AUTOMATIZASE_API_ENDPOINT
+  display_title: 'AutomatizaSE API Endpoint'
+  value: 'https://api.automatizase.com'
+  locked: false
+  description: 'The API endpoint for AutomatizaSE integrations and services'
+- name: AUTOMATIZASE_AUTH_TOKEN
+  display_title: 'AutomatizaSE Auth Token'
+  value:
+  locked: false
+  description: 'Authentication token for AutomatizaSE services and integrations'
+  type: secret
+- name: AUTOMATIZASE_PREMIUM_FEATURES
+  display_title: 'Enable Premium Features'
+  value: false
+  locked: false
+  description: 'Enable advanced automation features (requires premium plan)'
+  type: boolean
+- name: EVOLUTION_API_ENABLED
+  display_title: 'Enable Evolution API Integration'
+  value: true
+  locked: false
+  description: 'Enable WhatsApp integration using Evolution API with Baileys'
+  type: boolean
+- name: EVOLUTION_API_BASE_URL
+  display_title: 'Evolution API Base URL'
+  value: 'https://your-evolution-api-domain.com'
+  locked: false
+  description: 'Base URL for your Evolution API instance'
+- name: EVOLUTION_API_KEY
+  display_title: 'Evolution API Key'
+  value:
+  locked: false
+  description: 'API key for Evolution API authentication'
+  type: secret
+- name: EVOLUTION_API_GLOBAL_KEY
+  display_title: 'Evolution API Global Key'
+  value:
+  locked: false
+  description: 'Global API key for Evolution API (if using global authentication)'
+  type: secret
+- name: EVOLUTION_WEBHOOK_URL
+  display_title: 'Evolution Webhook URL'
+  value:
+  locked: false
+  description: 'Webhook URL that Evolution API will use to send messages to Chatwoot'
+- name: EVOLUTION_WEBHOOK_SECRET
+  display_title: 'Evolution Webhook Secret'
+  value:
+  locked: false
+  description: 'Secret token for webhook validation from Evolution API'
+  type: secret
+- name: STRIPE_PUBLISHABLE_KEY
+  display_title: 'Stripe Publishable Key'
+  value:
+  locked: false
+  description: 'The publishable key from Stripe for frontend payment processing'
+  type: secret
+- name: STRIPE_SECRET_KEY
+  display_title: 'Stripe Secret Key'
+  value:
+  locked: false
+  description: 'The secret key from Stripe for backend payment processing'
+  type: secret
+- name: STRIPE_WEBHOOK_SECRET
+  display_title: 'Stripe Webhook Secret'
+  value:
+  locked: false
+  description: 'The webhook secret from Stripe for validating webhook requests'
+  type: secret
+- name: AUTOMATIZASE_WEBHOOK_ENABLED
+  display_title: 'Enable AutomatizaSE Webhooks'
+  value: true
+  locked: false
+  description: 'Enable webhook integration for AutomatizaSE automation workflows'
+  type: boolean
+- name: AUTOMATIZASE_WEBHOOK_SECRET
+  display_title: 'AutomatizaSE Webhook Secret'
+  value:
+  locked: false
+  description: 'Secret key for validating AutomatizaSE webhook requests'
+  type: secret
+- name: AUTOMATIZASE_MAX_AUTOMATION_RULES
+  display_title: 'Max Automation Rules'
+  value: 50
+  locked: false
+  description: 'Maximum number of automation rules per account for AutomatizaSE'
+- name: AUTOMATIZASE_ANALYTICS_ENABLED
+  display_title: 'Enable Analytics Integration'
+  value: true
+  locked: false
+  description: 'Enable analytics and reporting integration for AutomatizaSE features'
+  type: boolean
+# ------- End of AutomatizaSE Specific Configuration ------- #

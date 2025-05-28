@@ -1,0 +1,49 @@
+# i18n-tasks finds and manages missing and unused translations
+# https://github.com/glebm/i18n-tasks
+
+# The "main" locale
+base_locale: pt-BR
+
+# All locales to work with
+locales: [pt-BR, en]
+
+# Paths or globs to read locale files from
+data:
+  read:
+    - config/locales/%{locale}.yml
+    - config/locales/devise.%{locale}.yml
+    - config/locales/**/*.%{locale}.yml
+
+  write:
+    - config/locales/%{locale}.yml
+
+# Configure search paths for translation usage
+search:
+  paths:
+    - app/
+    - lib/
+    - enterprise/
+    - config/
+  relative_roots:
+    - app/views
+    - app/controllers
+    - app/models
+    - app/services
+    - app/mailers
+    - app/javascript
+    - enterprise/app
+
+# Ignore unused translations
+ignore_unused:
+  - 'devise.*'
+  - 'secure_password.*'
+  - 'date.*'
+  - 'time.*'
+  - 'datetime.*'
+  - 'number.*'
+  - 'activerecord.*'
+  - 'errors.*'
+
+# Translation services for external translation
+translation:
+  api_key: <%= ENV['GOOGLE_TRANSLATE_API_KEY'] %> 

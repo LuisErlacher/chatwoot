@@ -1,3 +1,13 @@
+# chore: improve plan-based feature handling with plan hierarchy (#11335)
+
+#- Refactor HandleStripeEventService to better manage features by plan
+#- Add constants for features available in each plan tier (Startup,
+# Business, Enterprise)
+#- Add channel_instagram to Startup plan features
+#- Improve downgrade handling to properly disable higher-tier features
+#- Clean up and optimize tests for maintainability
+#- Add comprehensive test coverage for plan upgrades and downgrades
+
 require 'administrate/field/base'
 
 class ManuallyManagedFeaturesField < Administrate::Field::Base

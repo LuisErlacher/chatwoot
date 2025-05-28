@@ -1,0 +1,348 @@
+# PRD: Tradução e Rebranding Chatwoot para AutomatizaSE com Sistema de Pagamentos
+
+## 1. Product overview
+
+### 1.1 Document title and version
+
+*   PRD: Tradução e Rebranding Chatwoot para AutomatizaSE com Sistema de Pagamentos
+*   Version: 1.0
+
+### 1.2 Product summary
+
+Este projeto visa transformar a plataforma Chatwoot em uma versão completamente em português brasileiro chamada AutomatizaSE, com uma abordagem híbrida para implementação. A tradução e rebranding da interface do usuário serão realizados incrementalmente, conforme cada feature for alterada ou desenvolvida, utilizando uma estrutura adaptável que permita fácil localização. Paralelamente, elementos não afetados por essa abordagem incremental (como emails, tela de super admin e conteúdos estáticos) serão traduzidos e rebrandados nativamente. Além disso, será implementado um sistema robusto de planos de assinatura e processamento de pagamentos utilizando a API Stripe, permitindo que o proprietário da instância self-hosted AutomatizaSE (você) possa cadastrar novos usuários e cobrar pela utilização, de forma similar ao Chatwoot Cloud, mas de maneira independente.
+
+## 2. Goals
+
+### 2.1 Business goals
+
+*   Criar uma versão exclusivamente em português do Chatwoot, eliminando barreiras linguísticas para usuários brasileiros.
+*   Estabelecer a marca AutomatizaSE no mercado brasileiro, diferenciando-se do Chatwoot original.
+*   Permitir a monetização direta através de uma instância self-hosted gerenciada pelo proprietário.
+*   Criar fluxos de receita recorrente através da venda de planos de assinatura.
+
+### 2.2 User goals
+
+*   Utilizar uma plataforma de atendimento ao cliente completamente em português, eliminando barreiras linguísticas.
+*   Entender facilmente as funcionalidades e limitações dos diferentes planos oferecidos.
+*   Realizar upgrade ou downgrade do plano de assinatura de forma transparente.
+*   Acessar um histórico de cobrança claro e gerenciar métodos de pagamento.
+
+### 2.3 Non-goals
+
+*   Manter suporte multilíngue (a plataforma será exclusivamente em português).
+*   Integração com outros gateways de pagamento além do Stripe nesta fase.
+*   Modificações nas funcionalidades core do sistema original, além da tradução e branding.
+*   Cobrança complexa baseada no uso (ex: por mensagem) nesta versão inicial.
+
+## 3. User personas
+
+### 3.1 Key user types
+
+*   Administrador da Plataforma (você como proprietário da instância self-hosted)
+*   Administrador da Conta (cliente que compra um plano)
+*   Agente (usuário que utiliza a plataforma para atendimento)
+*   Usuário Final (cliente que é atendido através da plataforma)
+
+### 3.2 Basic persona details
+
+*   **Administrador da Plataforma**: Proprietário da instância AutomatizaSE, responsável por gerenciar o sistema, cadastrar contas e administrar os planos disponíveis.
+*   **Administrador da Conta**: Gerencia uma conta AutomatizaSE específica, responsável pela assinatura, cobrança e acesso de usuários em sua conta. Deseja escolher um plano que se ajuste às necessidades e orçamento de sua equipe.
+*   **Agente**: Usuário da plataforma que realiza atendimentos aos clientes finais, interage com as ferramentas de suporte e precisa de uma interface em português claro e intuitivo.
+*   **Usuário Final**: Cliente que é atendido através da plataforma e interage com os widgets de chat e outros canais de comunicação.
+
+### 3.3 Role-based access
+
+*   **Administrador da Plataforma**: Acesso total à plataforma, incluindo configuração do Stripe, criação e gerenciamento de planos, visualização de todas as contas, acesso aos dados de cobrança.
+*   **Administrador da Conta**: Pode visualizar os planos disponíveis, selecionar/atualizar planos para sua conta, gerenciar métodos de pagamento, visualizar o histórico de cobrança. O acesso às funcionalidades é determinado pelo plano selecionado.
+*   **Agente**: Acesso às funcionalidades de atendimento conforme permitido pelo plano da conta. Toda interface completamente em português.
+*   **Usuário Final**: Acesso apenas aos canais de comunicação oferecidos (widget de chat, email, etc.). Toda interação em português.
+
+## 4. Functional requirements
+
+*   **Tradução da Interface** (Prioridade: Alta)
+    *   Implementar uma abordagem incremental para tradução da interface do Chatwoot para português brasileiro.
+    *   Desenvolver uma estrutura adaptável que permita a localização fácil durante alterações de features.
+    *   Implementar tradução nativa para componentes estáticos e não vinculados a alterações de features (como tela de super admin, emails, etc.).
+    *   Garantir que todos os textos, incluindo tooltips, mensagens de erro e notificações, estejam em português claro e natural.
+    *   Adaptar termos técnicos para equivalentes em português que façam sentido para o usuário brasileiro.
+
+*   **Rebranding para AutomatizaSE** (Prioridade: Alta)
+    *   Substituir ocorrências da marca "Chatwoot" por "AutomatizaSE" de forma incremental durante o desenvolvimento ou modificação de features.
+    *   Implementar rebranding nativo para elementos estáticos como logos, ícones e elementos visuais.
+    *   Revisar e atualizar metadados, títulos de páginas e descrições para a nova marca.
+    *   Modificar cores e elementos de UI conforme a identidade visual da AutomatizaSE.
+
+*   **Atualização dos Modelos de Email** (Prioridade: Alta)
+    *   Traduzir todos os modelos de email para português.
+    *   Atualizar o branding em todos os templates de email.
+    *   Garantir que todos os emails transacionais funcionem corretamente com a nova marca.
+    *   Implementar assinaturas e disclaimers apropriados para o mercado brasileiro.
+
+*   **Configuração de Integração Stripe** (Prioridade: Alta)
+    *   Implementar a integração da API Stripe para a instância self-hosted.
+    *   Configurar webhooks e sistemas de notificação para eventos do Stripe.
+    *   Garantir segurança nas transações e conformidade com padrões PCI DSS.
+
+*   **Definição de Planos** (Prioridade: Alta)
+    *   Permitir que o Administrador da Plataforma defina múltiplos planos de assinatura similares ao Chatwoot Cloud.
+    *   Para cada plano, definir:
+        *   Nome do Plano
+        *   Preço (mensal/anual) em Real brasileiro (BRL)
+        *   Limites de recursos (ex: número de agentes, caixas de entrada, contatos, etc.)
+        *   Acesso a funcionalidades específicas
+
+*   **Sistema de Cadastro e Onboarding** (Prioridade: Alta)
+    *   Criar um fluxo de cadastro de novos clientes na plataforma.
+    *   Implementar processo de onboarding simplificado em português.
+    *   Permitir que o Administrador da Plataforma gerencie contas de clientes.
+
+*   **Exibição de Planos e Checkout** (Prioridade: Alta)
+    *   Apresentar os planos disponíveis de forma clara para os potenciais clientes.
+    *   Implementar um fluxo de checkout integrado com Stripe para BRL.
+    *   Processar pagamentos e ativar planos automaticamente após confirmação.
+
+*   **Gerenciamento de Assinatura** (Prioridade: Alta)
+    *   Permitir que Administradores de Conta visualizem o status da sua assinatura atual.
+    *   Permitir que Administradores de Conta atualizem o método de pagamento.
+    *   Permitir que Administradores de Conta cancelem a assinatura.
+    *   Enviar notificações por e-mail em português para eventos de assinatura.
+
+*   **Controle de Acesso Baseado em Plano** (Prioridade: Alta)
+    *   Restringir/habilitar o acesso a funcionalidades e impor limites de recursos com base no plano ativo da conta.
+    *   Informar os usuários quando atingirem um limite do plano e sugerir um upgrade.
+
+*   **Painel Administrativo** (Prioridade: Média)
+    *   Criar um painel para o Administrador da Plataforma gerenciar todos os aspectos do sistema.
+    *   Incluir visão geral de faturamento, contas ativas, planos e métricas relevantes.
+
+## 5. User experience
+
+### 5.1 Entry points & first-time user flow
+
+*   **Site promocional**: Potenciais clientes conhecem a plataforma AutomatizaSE e se inscrevem.
+*   **Processo de inscrição**: Cliente se registra, escolhe um plano e realiza o pagamento (ou inicia um período de teste).
+*   **Onboarding**: Após a inscrição, o cliente é guiado por um processo de configuração inicial em português claro e simples.
+*   **Dashboard inicial**: Interface totalmente em português com todas as opções claramente explicadas.
+
+### 5.2 Core experience
+
+*   **Interface Brasileira**: Toda a experiência do usuário é projetada para o público brasileiro, com linguagem natural que evita traduções literais.
+    *   O tom de comunicação é adaptado à cultura brasileira, utilizando expressões e terminologias familiares.
+*   **Visualizar e Gerenciar Planos**: Administradores de Conta navegam para a seção "Configurações da Conta" > "Plano e Cobrança" para ver o plano atual.
+    *   A página de planos apresenta comparações claras e linguagem transparente sobre preços e recursos.
+*   **Mudar de Plano**: O administrador clica em "Atualizar Plano", seleciona uma nova opção e é direcionado para uma página de checkout.
+    *   Todo o processo é em português, incluindo as confirmações de pagamento.
+*   **Utilização da Plataforma**: Agentes utilizam todas as funcionalidades com interface completamente traduzida.
+    *   Termos técnicos são adaptados para o contexto brasileiro.
+
+### 5.3 Advanced features & edge cases
+
+*   Períodos de teste para planos pagos em BRL.
+*   Cupons de desconto adaptados para o mercado brasileiro.
+*   Adaptações fiscais para emissão de notas fiscais conforme exigências brasileiras.
+*   Comunicações personalizadas em português para diferentes estados de conta.
+*   Tratamento de falhas de pagamento com comunicações claras em português.
+
+### 5.4 UI/UX highlights
+
+*   Interface totalmente em português brasileiro, com adaptações culturais.
+*   Branding completo AutomatizaSE em todos os pontos de contato.
+*   Processo de checkout simplificado e adaptado para o mercado brasileiro.
+*   Notificações claras sobre o status da assinatura em português.
+*   Comunicações por email com identidade visual da AutomatizaSE.
+
+## 6. Narrative
+
+Marcelo é dono de uma agência de marketing que precisa de uma solução de atendimento ao cliente para gerenciar a comunicação com os clientes de sua agência. Ele encontra a AutomatizaSE, uma plataforma em português que elimina a barreira do idioma para sua equipe. Ele se cadastra, escolhe o plano "Profissional" que se adequa às necessidades de sua agência de médio porte, e realiza o pagamento com seu cartão corporativo em reais. Em minutos, sua equipe já está configurando os canais de atendimento e personalizando a plataforma. Marcelo aprecia especialmente que toda a interface e suporte estejam em português, facilitando o treinamento de sua equipe e a adaptação da plataforma ao seu fluxo de trabalho.
+
+## 7. Success metrics
+
+### 7.1 User-centric metrics
+
+*   Taxa de adoção por empresas brasileiras.
+*   Tempo médio de onboarding de novos usuários (reduzido pela interface em português).
+*   Satisfação do usuário com a qualidade da tradução e adaptação cultural.
+*   Frequência de uso das funcionalidades da plataforma.
+
+### 7.2 Business metrics
+
+*   Número de novos cadastros na plataforma.
+*   Taxa de conversão de trial para planos pagos.
+*   Receita Recorrente Mensal (MRR) gerada pelos planos.
+*   Taxa de Churn de assinantes.
+*   Valor Médio por Cliente (ARPU).
+
+### 7.3 Technical metrics
+
+*   Qualidade e completude da tradução (% de interface traduzida).
+*   Taxa de sucesso de transações de pagamento via Stripe.
+*   Tempo de carregamento da plataforma após as modificações.
+*   Número de erros ou falhas no processo de sincronização com o Stripe.
+
+## 8. Technical considerations
+
+### 8.1 Integration points
+
+*   Arquivos de localização do Chatwoot para implementação da tradução completa.
+*   Sistema de branding e referências visuais para substituição.
+*   Templates de email para tradução e rebranding.
+*   Stripe API (para processamento de pagamentos em BRL).
+*   Sistema de email (para notificações de cobrança em português).
+
+### 8.2 Data storage & privacy
+
+*   Dados de cartão de crédito NÃO devem ser armazenados no sistema AutomatizaSE; o Stripe cuidará disso.
+*   Conformidade com LGPD (Lei Geral de Proteção de Dados) brasileira.
+*   Armazenar o ID da assinatura do Stripe, o ID do cliente do Stripe e o status do plano no banco de dados.
+*   Implementar política de retenção de dados adequada à legislação brasileira.
+
+### 8.3 Scalability & performance
+
+*   O sistema deve lidar com um número crescente de contas brasileiras.
+*   Otimização de performance para conexões de internet típicas do Brasil.
+*   Webhooks do Stripe devem ser processados de forma eficiente.
+*   Verificações de limites de plano não devem impactar significativamente o desempenho.
+
+### 8.4 Potential challenges
+
+*   Garantir tradução consistente em todo o sistema, incluindo áreas profundamente técnicas.
+*   Adaptar o sistema de cobrança para moeda brasileira e exigências fiscais locais.
+*   Manter a plataforma atualizada quando o Chatwoot original receber novos recursos.
+*   Implementar fluxo de cadastro de novo cliente mantendo isolamento de contas.
+
+## 9. Milestones & sequencing
+
+### 9.1 Project estimate
+
+*   Large: 10-14 semanas
+
+### 9.2 Team size & composition
+
+*   Medium Team: 3-5 total people
+    *   1 Product Manager, 2-3 Engenheiros (Backend e Frontend), 1 QA Specialist, 1 Tradutor/Localização
+
+### 9.3 Suggested phases
+
+*   **Phase 1**: Estrutura de Tradução e Rebranding Incremental (3-4 semanas)
+    *   Key deliverables: Estrutura adaptável para tradução incremental. Implementação nativa de tradução e rebranding para componentes estáticos (emails, telas de admin). Definição de diretrizes de tradução para desenvolvimento futuro. Substituição dos principais elementos visuais da marca.
+*   **Phase 2**: Integração Stripe e Sistema de Planos (3-4 semanas)
+    *   Key deliverables: Integração com Stripe para pagamentos em BRL. Definição de planos e preços. Sistema de checkout funcional. Webhooks para processamento de eventos Stripe.
+*   **Phase 3**: Sistema de Cadastro e Onboarding (2-3 semanas)
+    *   Key deliverables: Fluxo de cadastro de novos clientes. Sistema de isolamento de contas. Processo de onboarding em português. Painel administrativo para gestão de contas.
+*   **Phase 4**: Controle de Acesso e Testes (2 semanas)
+    *   Key deliverables: Implementação do controle de acesso baseado em planos. Limitação de recursos por plano. Testes completos de toda a plataforma. Ajustes finais na tradução e experiência do usuário.
+
+## 10. User stories
+
+### 10.1. Navegar pela interface em português conforme implementação incremental
+*   **ID**: US-001
+*   **Description**: Como usuário brasileiro, quero utilizar a plataforma com interface em português que se adapta conforme novas features são desenvolvidas ou modificadas.
+*   **Acceptance criteria**:
+    *   Um sistema adaptável permite a tradução automática de componentes conforme são alterados.
+    *   Os elementos estáticos da interface (como telas administrativas, emails) estão todos traduzidos nativamente.
+    *   Novas features são desenvolvidas com suporte a português desde o início.
+    *   Existe uma consistência de terminologia e estilo em toda a tradução, seja incremental ou nativa.
+
+### 10.2. Identificar a marca AutomatizaSE conforme implementação incremental
+*   **ID**: US-002
+*   **Description**: Como usuário, quero reconhecer a marca AutomatizaSE em toda a plataforma, com rebranding aplicado tanto de forma incremental nas features quanto nativa nos elementos estáticos.
+*   **Acceptance criteria**:
+    *   Elementos visuais principais (logo, favicon, cores) foram substituídos nativamente.
+    *   Ocorrências textuais de "Chatwoot" são substituídas por "AutomatizaSE" conforme cada feature é alterada.
+    *   Elementos estáticos como emails e documentação têm o rebranding aplicado nativamente.
+    *   Existe consistência visual entre os elementos com rebranding incremental e nativo.
+
+### 10.3. Receber emails com a marca AutomatizaSE
+*   **ID**: US-003
+*   **Description**: Como usuário, quero receber todos os emails do sistema com a marca AutomatizaSE e completamente em português para manter uma experiência consistente.
+*   **Acceptance criteria**:
+    *   Todos os templates de email estão traduzidos para português brasileiro.
+    *   Os emails exibem o logotipo e cores da AutomatizaSE.
+    *   As assinaturas de email contêm as informações de contato da AutomatizaSE.
+    *   Emails transacionais (confirmações, notificações, alertas) mantêm consistência de marca e linguagem.
+
+### 10.4. Cadastrar uma nova conta como administrador da plataforma
+*   **ID**: US-004
+*   **Description**: Como administrador da plataforma AutomatizaSE, quero poder cadastrar novos clientes no sistema para gerenciar as contas e cobranças.
+*   **Acceptance criteria**:
+    *   Existe uma interface administrativa para criar novas contas de clientes.
+    *   Posso definir informações básicas da conta, como nome da empresa, email de contato, etc.
+    *   Posso associar a conta a um plano específico.
+    *   A conta criada é isolada de outras contas no sistema.
+
+### 10.5. Configurar planos de assinatura como administrador da plataforma
+*   **ID**: US-005
+*   **Description**: Como administrador da plataforma, quero configurar diferentes planos de assinatura com preços em reais e limites específicos de recursos.
+*   **Acceptance criteria**:
+    *   Existe uma interface para criar e gerenciar planos.
+    *   Posso definir nome, descrição, preço em BRL e intervalos de cobrança.
+    *   Posso configurar limites de recursos para cada plano (agentes, caixas de entrada, etc.).
+    *   Posso ativar/desativar funcionalidades específicas para cada plano.
+    *   Os planos são sincronizados com o Stripe para processamento de pagamentos.
+
+### 10.6. Visualizar planos disponíveis como cliente potencial
+*   **ID**: US-006
+*   **Description**: Como potencial cliente, quero ver os planos disponíveis na AutomatizaSE com seus preços e recursos para escolher o mais adequado às minhas necessidades.
+*   **Acceptance criteria**:
+    *   Uma página pública de planos exibe todas as opções disponíveis.
+    *   Cada plano mostra claramente: Nome, Preço em reais, Frequência de cobrança.
+    *   Uma lista comparativa de recursos/limites é exibida para cada plano.
+    *   Existe um botão "Assinar" ou "Começar teste" para cada plano.
+
+### 10.7. Selecionar um plano e realizar pagamento
+*   **ID**: US-007
+*   **Description**: Como cliente, quero selecionar um plano e realizar o pagamento em reais para começar a utilizar a plataforma AutomatizaSE.
+*   **Acceptance criteria**:
+    *   Ao selecionar um plano, sou direcionado para um formulário de cadastro.
+    *   Após o cadastro, sou levado para um checkout seguro via Stripe.
+    *   Posso inserir dados de cartão de crédito brasileiro e finalizar a compra em reais.
+    *   Após o pagamento bem-sucedido, minha conta é ativada com o plano escolhido.
+    *   Recebo um email de confirmação da assinatura em português.
+
+### 10.8. Gerenciar assinatura como administrador de conta
+*   **ID**: US-008
+*   **Description**: Como administrador de conta na AutomatizaSE, quero gerenciar minha assinatura para atualizar o plano, método de pagamento ou cancelar quando necessário.
+*   **Acceptance criteria**:
+    *   Na seção "Configurações da Conta" > "Plano e Cobrança", posso ver meu plano atual.
+    *   Posso escolher fazer upgrade ou downgrade do meu plano.
+    *   Posso atualizar meu método de pagamento de forma segura.
+    *   Posso visualizar o histórico de faturas em reais.
+    *   Posso cancelar minha assinatura se necessário.
+
+### 10.9. Receber notificações sobre assinatura
+*   **ID**: US-009
+*   **Description**: Como administrador de conta, quero receber notificações em português sobre eventos relacionados à minha assinatura.
+*   **Acceptance criteria**:
+    *   Recebo emails para eventos como pagamento processado, falha no pagamento, assinatura próxima do vencimento.
+    *   As notificações são claras e em português brasileiro natural.
+    *   Recebo alertas no sistema quando estou próximo de atingir limites do meu plano.
+    *   Notificações sugerem ações específicas quando apropriado (ex: "Atualize seu plano").
+
+### 10.10. Utilizar a plataforma com limites baseados no plano
+*   **ID**: US-010
+*   **Description**: Como usuário da plataforma, quero utilizar as funcionalidades dentro dos limites do meu plano e ser notificado quando atingir esses limites.
+*   **Acceptance criteria**:
+    *   Posso ver claramente os limites do meu plano atual.
+    *   Recebo alertas quando me aproximo dos limites (ex: 80% do limite de agentes).
+    *   Quando atinjo um limite, uma mensagem clara em português explica a situação.
+    *   Sou apresentado com a opção de upgrade quando atinjo limites do meu plano atual.
+
+### 10.11. Visualizar dashboard administrativo da plataforma
+*   **ID**: US-011
+*   **Description**: Como administrador da plataforma AutomatizaSE, quero um dashboard para monitorar todas as contas, assinaturas e métricas de faturamento.
+*   **Acceptance criteria**:
+    *   Existe um painel administrativo protegido por autenticação.
+    *   Posso ver todas as contas ativas na plataforma.
+    *   Visualizo métricas como MRR, novos clientes, churn, etc.
+    *   Posso filtrar e buscar contas específicas.
+    *   Tenho acesso ao histórico de transações e status de pagamentos.
+
+### 10.12. Configurar integração com Stripe
+*   **ID**: US-012
+*   **Description**: Como administrador da plataforma, quero configurar a integração com Stripe para processar pagamentos em reais (BRL).
+*   **Acceptance criteria**:
+    *   Existe uma interface para inserir e validar chaves de API do Stripe.
+    *   A integração com webhook do Stripe está configurada e funcional.
+    *   Os eventos do Stripe são processados corretamente pelo sistema.
+    *   As transações são registradas e rastreáveis no sistema.
+    *   A configuração suporta pagamentos em reais brasileiros (BRL). 

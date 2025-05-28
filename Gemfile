@@ -60,6 +60,10 @@ gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
+##-- gems for internationalization --##
+gem 'rails-i18n'
+gem 'i18n-tasks'
+
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
