@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Implement Core Translation Infrastructure
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create the foundational translation system supporting both incremental and native translation approaches
+# Details:
+Set up Rails I18n with pt-BR as default locale. Create comprehensive locale files structure: config/locales/pt-BR/ with subdirectories for different modules (dashboard, settings, conversations, etc.). Implement translation helpers and view components that automatically use pt-BR translations. Create translation management system using i18n-tasks gem for tracking missing translations. Set up automated translation validation using i18n-spec gem. Configure frontend i18n using vue-i18n 9.x for Vue.js components. Create translation guidelines document defining tone, terminology, and cultural adaptations for Brazilian Portuguese.
+
+# Test Strategy:
+Test that all existing UI elements can be translated without breaking functionality. Verify translation fallbacks work correctly. Test pluralization rules for Portuguese. Validate that new components automatically use the translation system.

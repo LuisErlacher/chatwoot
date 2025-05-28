@@ -1,0 +1,154 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AutomatizaSe Frontend Development Standards - Version: 1.0.0
+
+## Purpose & Scope
+
+This rule defines the standards and best practices for frontend development in the AutomatizaSe application. It covers component architecture, state management, styling conventions, accessibility requirements, and testing strategies for the Vue.js based frontend.
+
+## Implementation Guidelines
+
+- **MUST** follow the existing Vue.js component structure in `app/javascript/`
+- **MUST** use Vuex for global state management
+- **MUST** use Vue Router for navigation
+- **MUST** make all user interfaces responsive and mobile-friendly
+- **MUST** follow the design system guidelines for consistent UI
+- **SHOULD** optimize components for performance
+- **MUST** use internationalization (i18n) for all user-facing text
+- **MUST** implement proper error handling for API requests
+- **SHOULD** use Vue composition API for new components
+- **MUST** implement accessibility standards (WCAG 2.1 AA compliance)
+- **MUST** use proper data-testid attributes for test selectors
+- **SHOULD** minimize third-party dependencies
+
+### Examples
+
+```vue
+<!-- ✅ DO: Follow component structure standards -->
+<template>
+  <div class="conversation-view" data-testid="conversation-view">
+    <woot-loading-state v-if="uiFlags.isFetching" />
+    <conversation-header :conversation="conversation" />
+    <messages-list :messages="messages" :is-loading="uiFlags.isMessagesLoading" />
+    <reply-box :conversation-id="conversationId" />
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+import ConversationHeader from './ConversationHeader.vue';
+import MessagesList from './MessagesList.vue';
+import ReplyBox from './ReplyBox.vue';
+import WootLoadingState from 'shared/components/WootLoadingState.vue';
+
+export default {
+  components: {
+    ConversationHeader,
+    MessagesList,
+    ReplyBox,
+    WootLoadingState,
+  },
+  props: {
+    conversationId: {
+      type: [Number, String],
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      conversation: 'getConversation',
+      messages: 'getMessages',
+      uiFlags: 'getUIFlags',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('fetchConversation', { id: this.conversationId });
+  },
+};
+</script>
+
+<!-- ❌ DON\'T: Create components without proper structure -->
+<template>
+  <div>
+    <!-- Missing data-testid -->
+    <!-- No loading state -->
+    <div>Conversation with {{ conversationId }}</div>
+    <!-- Inline styles instead of using design system -->
+    <div style="background: #f0f0f0; padding: 10px;">
+      Messages will be here
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['conversationId'], // Not using proper prop validation
+};
+</script>
+```
+
+```javascript
+// ✅ DO: Proper API call with error handling
+export const getConversations = async ({ commit }, { inboxId, status }) => {
+  commit('setConversationListLoading', true);
+  try {
+    const response = await ConversationAPI.get(inboxId, status);
+    commit('setConversations', response.data.payload.data);
+  } catch (error) {
+    // Handle error properly
+    commit('setConversationListLoadingFailed');
+  } finally {
+    commit('setConversationListLoading', false);
+  }
+};
+
+// ❌ DON\'T: Skip error handling in API calls
+export const getConversations = async ({ commit }, { inboxId, status }) => {
+  commit('setConversationListLoading', true);
+  const response = await ConversationAPI.get(inboxId, status);
+  commit('setConversations', response.data.payload.data);
+  commit('setConversationListLoading', false);
+};
+```
+
+### Restrictions
+
+- **MUST NOT** use inline styles directly in templates
+- **MUST NOT** manipulate DOM directly outside of Vue lifecycle hooks
+- **MUST NOT** use jQuery or other DOM manipulation libraries
+- **MUST NOT** make API calls directly from components (use Vuex actions)
+- **MUST NOT** hardcode text strings (use i18n)
+- **MUST NOT** create new global components without proper review
+
+## Conventions
+
+- Component names should use PascalCase
+- File names should match component names
+- Use kebab-case for custom attribute names
+- Use BEM methodology for CSS class naming
+- Group components by feature/module
+- Use async/await for asynchronous operations
+- Keep components focused on a single responsibility
+
+## Testing Requirements
+
+1. **Unit Tests**: Test individual components with Vue Test Utils
+2. **Integration Tests**: Test component interactions
+3. **Snapshot Tests**: Ensure UI consistency
+4. **End-to-End Tests**: Test critical user flows
+5. **Accessibility Tests**: Verify WCAG compliance
+
+## Related Rules
+
+- `@automatizase-system-operations.mdc`
+- `@automatizase-security-standards.mdc`
+
+## Suggested Metadata
+---
+description: Standards for frontend development in the AutomatizaSe application
+globs: ["app/javascript/**/*.vue", "app/javascript/**/*.js", "app/assets/stylesheets/**/*"]
+alwaysApply: true
+---

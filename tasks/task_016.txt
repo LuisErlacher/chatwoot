@@ -1,0 +1,43 @@
+# Task ID: 16
+# Title: Implement WhatsApp Integration using Evolution API
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create a dedicated WhatsApp inbox integration using Evolution API with Baileys, enabling custom inbox creation, QR code scanning, SMS verification, and connection management for unofficial WhatsApp instances.
+# Details:
+Implement a comprehensive WhatsApp integration module using Evolution API REST endpoints. Create a new inbox provider class inheriting from Chatwoot's base inbox structure. Set up API client for Evolution API communication with proper authentication and error handling. Implement instance creation functionality using Baileys through POST /instance/create endpoint with custom instance names. Build QR code generation and display interface by calling GET /instance/connect/{instanceName} and rendering the base64 QR code image in the frontend. Implement SMS code verification as alternative connection method using POST /instance/code endpoint. Create connection status monitoring using GET /instance/connectionState/{instanceName} with real-time updates via WebSocket or polling. Add webhook configuration for receiving messages using POST /webhook/set endpoint pointing to Chatwoot's webhook handler. Implement message sending capabilities using POST /message/sendText and POST /message/sendMedia endpoints. Create inbox configuration UI allowing users to set custom names, choose connection methods (QR/SMS), and monitor connection status. Add proper error handling for API failures, connection timeouts, and instance management issues. Ensure proper cleanup of disconnected instances and implement reconnection logic. Store Evolution API credentials and instance configurations securely in encrypted application credentials.
+
+# Test Strategy:
+Create comprehensive test suite including unit tests for Evolution API client methods, integration tests for instance creation and connection flows, and end-to-end tests for complete WhatsApp inbox setup. Test QR code generation and display functionality with mock Evolution API responses. Verify SMS verification flow with test phone numbers. Test message sending and receiving through webhook endpoints using ngrok for local development. Validate connection status monitoring with simulated connection state changes. Test error handling scenarios including API timeouts, invalid credentials, and network failures. Perform load testing with multiple concurrent WhatsApp instances. Verify proper cleanup of disconnected instances and test reconnection scenarios. Test inbox configuration UI across different browsers and screen sizes. Validate webhook security and message processing accuracy.
+
+# Subtasks:
+## 1. Develop WhatsApp Inbox Provider Class [pending]
+### Dependencies: None
+### Description: Create a new inbox provider class inheriting from Chatwoot's base inbox structure to handle WhatsApp messages.
+### Details:
+Implement a class that extends Chatwoot's base inbox, enabling the handling of WhatsApp messages within the Chatwoot platform.
+
+## 2. Set Up Evolution API Client with Authentication [pending]
+### Dependencies: 16.1
+### Description: Configure an API client to communicate with Evolution API, including proper authentication and error handling.
+### Details:
+Establish a client that interfaces with Evolution API's REST endpoints, ensuring secure authentication and robust error management.
+
+## 3. Implement Instance Management and Connection Features [pending]
+### Dependencies: 16.2
+### Description: Develop functionalities for instance creation, QR code generation, SMS verification, and connection status monitoring using Evolution API.
+### Details:
+Utilize Evolution API endpoints to create instances, generate and display QR codes, verify SMS codes, and monitor connection statuses.
+
+## 4. Configure Webhooks for Message Handling [pending]
+### Dependencies: 16.3
+### Description: Set up webhook configurations to receive and send messages between Chatwoot and Evolution API.
+### Details:
+Implement webhook handlers in Chatwoot to process incoming messages from Evolution API and configure Evolution API to forward messages to Chatwoot's webhook endpoints.
+
+## 5. Develop Inbox Configuration UI [pending]
+### Dependencies: 16.4
+### Description: Create a user interface within Chatwoot for configuring WhatsApp inbox settings, including custom names, connection methods, and connection status monitoring.
+### Details:
+Design and implement a frontend interface that allows users to set custom inbox names, choose between QR code or SMS verification methods, and monitor the connection status of their WhatsApp integration.
+

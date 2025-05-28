@@ -1,0 +1,75 @@
+# Task ID: 7
+# Title: Build Customer Registration and Onboarding Flow
+# Status: pending
+# Dependencies: 3, 4, 6
+# Priority: high
+# Description: Adapt Chatwoot's existing onboarding system to implement AutomatizaSE's 4-tier pricing model with 7-day trial period and Brazilian Portuguese localization
+# Details:
+Adapt Chatwoot's existing onboarding flow to support AutomatizaSE's business model. Current system starts accounts as default and migrates to enabled features via script after subscription. Need to implement:
+
+**Core Adaptations:**
+- Analyze current Chatwoot onboarding flow and account creation process
+- Implement 7-day trial period for all plans before payment required
+- Integrate trial period with Stripe billing delay mechanism
+- Adapt existing feature enablement scripts for AutomatizaSE plan structure
+
+**Plan Structure (Updated):**
+🆓 Plano Grátis (Free): Permanent free tier with basic features
+🚀 Plano Pro: Mid-tier paid plan with enhanced features
+💼 Plano Business: Advanced business features
+🏢 Plano Enterprise: Full enterprise capabilities
+
+**Implementation Requirements:**
+- Modify existing account creation to support trial period
+- Update feature enablement scripts to match new plan tiers
+- Integrate Stripe billing delay for trial management
+- Localize existing onboarding UI to Brazilian Portuguese
+- Adapt plan-specific feature restrictions in existing system
+- Modify existing welcome flows for AutomatizaSE branding
+
+**Trial Period Integration:**
+- All new accounts start with 7-day trial access to selected plan features
+- Stripe billing configured with 7-day delay
+- Automatic plan downgrade to free tier if no payment after trial
+- Trial countdown and upgrade prompts in existing UI
+
+# Test Strategy:
+Test adaptation of existing Chatwoot onboarding flow for all 4 AutomatizaSE plans. Verify 7-day trial period works correctly with Stripe billing delay. Test account creation process maintains existing functionality while adding trial features. Validate feature enablement scripts properly restrict/enable features based on plan selection. Test trial expiration scenarios and automatic downgrade to free tier. Verify existing onboarding UI properly displays in Portuguese. Test integration between trial period and payment processing.
+
+# Subtasks:
+## 7.1. Analyze Current Chatwoot Onboarding System [pending]
+### Dependencies: None
+### Description: Document existing onboarding flow, account creation process, and feature enablement mechanisms
+### Details:
+
+
+## 7.2. Implement 7-Day Trial Period [pending]
+### Dependencies: None
+### Description: Add trial period functionality to account creation with countdown and upgrade prompts
+### Details:
+
+
+## 7.3. Integrate Stripe Billing Delay [pending]
+### Dependencies: None
+### Description: Configure Stripe to delay billing for 7 days and handle trial expiration scenarios
+### Details:
+
+
+## 7.4. Adapt Feature Enablement Scripts [pending]
+### Dependencies: None
+### Description: Modify existing scripts to support AutomatizaSE plan structure (Grátis, Pro, Business, Enterprise)
+### Details:
+
+
+## 7.5. Localize Onboarding UI to Portuguese [pending]
+### Dependencies: None
+### Description: Translate and adapt existing onboarding interface for Brazilian Portuguese
+### Details:
+
+
+## 7.6. Update Plan Selection and Restrictions [pending]
+### Dependencies: None
+### Description: Modify existing plan selection to show AutomatizaSE tiers with appropriate feature restrictions
+### Details:
+
+

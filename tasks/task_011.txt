@@ -1,0 +1,73 @@
+# Task ID: 11
+# Title: Create Platform Administrator Dashboard
+# Status: pending
+# Dependencies: 9, 10
+# Priority: medium
+# Description: Build comprehensive administrative dashboard for platform owner to manage all aspects of the AutomatizaSE instance with specific metrics for the 4 AutomatizaSE plans (Hacker, Startups, Business, Enterprise)
+# Details:
+Create admin dashboard using ActiveAdmin or custom Rails admin interface with Portuguese localization. Implement customer account management with search and filtering by plan type. Create billing analytics with plan-specific MRR tracking (Hacker: R$0, Startups: R$95, Business: R$195, Enterprise: R$495 per agent per account), churn rates by plan, and growth metrics using Chartkick or similar. Add subscription management tools for manual interventions and plan upgrades/downgrades tracking. Implement customer support tools with account impersonation capabilities and support ticket metrics by plan tier. Create plan usage analytics showing limits vs usage for Hacker plan (500 conversations/month, 2 agents, 30 days retention) and unlimited usage tracking for paid plans. Add system health monitoring and performance metrics. Implement customer communication tools for announcements and support. Create data export tools for business intelligence with Portuguese reports. Add audit logging for all administrative actions. Include conversion tracking from Hacker to paid plans, ARPU and LTV calculations by plan segment, feature adoption metrics, and growth opportunity identification for customers approaching plan limits.
+
+# Test Strategy:
+Test admin dashboard loads correctly with proper authentication and Portuguese localization. Verify customer search and filtering works accurately by plan type. Test billing analytics display correct MRR calculations for each plan tier. Validate plan-specific usage metrics show accurate data against limits. Test conversion tracking from Hacker to paid plans. Verify upgrade/downgrade tracking functionality. Validate account impersonation works securely. Test data export functionality produces accurate reports in Portuguese with proper plan segmentation.
+
+# Subtasks:
+## 111. Setup admin dashboard framework with Portuguese localization [pending]
+### Dependencies: None
+### Description: Configure ActiveAdmin or custom Rails admin interface with Portuguese language support
+### Details:
+
+
+## 112. Implement plan-specific customer overview metrics [pending]
+### Dependencies: None
+### Description: Create dashboard sections showing customer distribution across Hacker, Startups, Business, and Enterprise plans with filtering capabilities
+### Details:
+
+
+## 113. Build MRR analytics by plan tier [pending]
+### Dependencies: None
+### Description: Implement MRR tracking with plan-specific calculations: Hacker (R$0), Startups (R$95), Business (R$195), Enterprise (R$495) per agent per account
+### Details:
+
+
+## 114. Create conversion and churn analytics [pending]
+### Dependencies: None
+### Description: Build metrics for Hacker to paid plan conversions, churn rates by plan, and upgrade/downgrade tracking between plans
+### Details:
+
+
+## 115. Implement plan usage analytics and limits tracking [pending]
+### Dependencies: None
+### Description: Create usage monitoring for Hacker plan limits (500 conversations/month, 2 agents, 30 days retention) and unlimited usage tracking for paid plans
+### Details:
+
+
+## 116. Build ARPU and LTV calculations by plan segment [pending]
+### Dependencies: None
+### Description: Implement Average Revenue Per User and Lifetime Value calculations segmented by plan type with trend analysis
+### Details:
+
+
+## 117. Create feature adoption and growth opportunity metrics [pending]
+### Dependencies: None
+### Description: Build analytics showing feature usage by plan, channel utilization by segment, and identification of customers approaching plan limits for upgrade opportunities
+### Details:
+
+
+## 118. Implement support metrics by plan tier [pending]
+### Dependencies: None
+### Description: Create support ticket analytics segmented by plan tier with response time and resolution metrics
+### Details:
+
+
+## 119. Add filtering and export capabilities [pending]
+### Dependencies: None
+### Description: Implement dashboard filters by period, plan type, and region with Portuguese report export functionality
+### Details:
+
+
+## 120. Create customer management and impersonation tools [pending]
+### Dependencies: None
+### Description: Build customer account management interface with secure impersonation capabilities and audit logging
+### Details:
+
+

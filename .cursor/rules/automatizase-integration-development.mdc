@@ -1,0 +1,104 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AutomatizaSe Integration Development - Version: 1.0.0
+
+## Purpose & Scope
+
+This rule defines the standards and procedures for developing and maintaining integrations with external services in the AutomatizaSe platform. It covers integration architecture, authentication methods, data handling, and testing requirements.
+
+## Implementation Guidelines
+
+- **MUST** follow the existing integration architecture patterns in `app/services/` and `lib/integrations/`
+- **MUST** implement proper error handling for all API calls to external services
+- **MUST** use configuration system for all integration credentials and settings
+- **MUST** avoid hard-coding URLs or API endpoints for external services
+- **SHOULD** implement rate limiting and throttling for external API calls
+- **MUST** document API endpoints and parameters for each integration
+- **MUST** implement proper authentication for all integrations
+- **SHOULD** use webhooks for real-time updates where supported by external services
+- **MUST** validate all data received from external services before processing
+
+### Examples
+
+```ruby
+# ✅ DO: Use configuration system for integration settings
+class MyIntegrationService
+  def initialize(account)
+    @account = account
+    @api_key = GlobalConfig.get('MY_INTEGRATION_API_KEY')['value']
+    @api_url = GlobalConfig.get('MY_INTEGRATION_API_URL')['value']
+  end
+  
+  # Rest of implementation
+end
+
+# ❌ DON\'T: Hardcode API credentials or endpoints
+class MyIntegrationService
+  def initialize(account)
+    @account = account
+    @api_key = 'abc123xyz'
+    @api_url = 'https://api.example.com/v1'
+  end
+end
+```
+
+```ruby
+# ✅ DO: Implement proper error handling
+def fetch_data_from_external_service
+  response = HTTParty.get("#{@api_url}/data", headers: auth_headers)
+  
+  if response.success?
+    process_successful_response(response)
+  else
+    handle_error_response(response)
+    raise IntegrationError.new("Failed to fetch data: #{response.code}")
+  end
+rescue StandardError => e
+  Rails.logger.error "Integration error: #{e.message}"
+  # Additional error handling
+end
+
+# ❌ DON\'T: Skip error handling
+def fetch_data_from_external_service
+  response = HTTParty.get("#{@api_url}/data", headers: auth_headers)
+  process_successful_response(response)
+end
+```
+
+### Restrictions
+
+- **MUST NOT** store API credentials directly in code
+- **MUST NOT** commit integration test credentials to version control
+- **MUST NOT** expose internal system details to external services
+- **MUST NOT** make synchronous API calls that could block the main application thread
+
+## Conventions
+
+- Integration services should be namespaced under appropriate modules
+- Integration configuration should be grouped in the installation config file
+- Each integration should have comprehensive documentation
+- OAuth-based integrations should follow the existing OAuth flow patterns
+- Webhook handlers should be implemented as separate controller actions
+
+## Integration Testing Requirements
+
+1. **Mock Responses**: Use mock responses for external API calls in tests
+2. **Error Scenarios**: Test error handling and edge cases
+3. **Rate Limiting**: Test behavior when rate limits are hit
+4. **Authentication**: Test authentication flows and token refresh logic
+5. **Data Validation**: Test validation of data from external services
+
+## Related Rules
+
+- `@automatizase-system-operations.mdc`
+- `@automatizase-security-standards.mdc`
+
+## Suggested Metadata
+---
+description: Standards for developing and maintaining external service integrations in AutomatizaSe
+globs: ["app/services/**/*", "lib/integrations/**/*", "app/controllers/*/integrations/**/*"]
+alwaysApply: true
+---

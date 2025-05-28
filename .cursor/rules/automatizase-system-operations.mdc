@@ -1,0 +1,85 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AutomatizaSe System Operations & Updates - Version: 1.0.0
+
+## Purpose & Scope
+
+This rule defines the standard procedures for operating, configuring, and updating the AutomatizaSe system. It covers configuration management, deployment processes, and system maintenance activities to ensure stability and consistency.
+
+## Implementation Guidelines
+
+- **MUST** use the configuration system in `config/installation_config.yml` for system-wide settings rather than hardcoding values
+- **MUST** maintain backward compatibility when adding new configuration parameters
+- **MUST** follow the defined structure for configuration entries (name, value, display_title, description, etc.)
+- **MUST** use appropriate configuration types (text, boolean, secret, code) based on the nature of the data
+- **SHOULD** document all configuration changes with clear descriptions
+- **MUST** test all configuration changes in development environment before production deployment
+- **MUST** follow the Docker-based deployment process for production changes
+- **SHOULD** maintain version control of configuration changes
+- **MUST** keep sensitive values like API keys and tokens secure using the secret type
+
+### Examples
+
+```yaml
+# ✅ DO: Add new configuration with proper structure
+- name: NEW_FEATURE_ENABLED
+  display_title: 'Enable New Feature'
+  value: false
+  description: 'Toggle to enable the new messaging feature across all accounts'
+  locked: false
+  type: boolean
+
+# ❌ DON\'T: Add incomplete or improperly structured configuration
+- name: INCOMPLETE_CONFIG
+  value: true
+```
+
+```ruby
+# ✅ DO: Access configuration values through the system
+if GlobalConfig.get('NEW_FEATURE_ENABLED')['value']
+  # Enable feature functionality
+end
+
+# ❌ DON\'T: Hardcode configuration values in the application
+if true # hardcoded value instead of using config
+  # Enable feature functionality
+end
+```
+
+### Restrictions
+
+- **MUST NOT** edit configuration files directly in production environments
+- **MUST NOT** change locked configuration parameters without proper authorization
+- **MUST NOT** expose sensitive configuration values in logs or error messages
+- **MUST NOT** modify the deployment environment value unless migrating between environments
+
+## Conventions
+
+- Configuration parameters should use UPPERCASE_WITH_UNDERSCORES naming convention
+- Integration-specific configurations should be grouped together in the configuration file
+- Feature flags should be implemented as boolean type configurations
+- Sensitive values should always use the secret type
+- Deployment-related configurations should be managed through environment variables in production
+
+## System Update Procedure
+
+1. **Backup**: Create a backup of the database and configuration files before any update
+2. **Test**: Test the update in a staging environment that mirrors production
+3. **Deploy**: Use the Docker-based deployment process for applying updates
+4. **Verify**: Confirm all services are operational after the update
+5. **Rollback**: Have a documented rollback plan if the update causes issues
+
+## Related Rules
+
+- `@automatizase-security-standards.mdc`
+- `@automatizase-integration-development.mdc`
+
+## Suggested Metadata
+---
+description: Guidelines for safely operating, configuring and updating the AutomatizaSe system
+globs: ["config/*.yml", "docker/**/*", "deployment/**/*"]
+alwaysApply: true
+---

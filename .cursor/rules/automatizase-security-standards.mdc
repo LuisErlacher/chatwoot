@@ -1,0 +1,114 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AutomatizaSe Security Standards - Version: 1.0.0
+
+## Purpose & Scope
+
+This rule defines the security standards and best practices for the AutomatizaSe application to ensure data protection, secure authentication, and prevention of common vulnerabilities. It covers authentication mechanisms, data handling, API security, and configuration security.
+
+## Implementation Guidelines
+
+- **MUST** use secure authentication methods for all user access points
+- **MUST** implement proper authorization checks for all API endpoints and controller actions
+- **MUST** use parameterized queries or ORM methods to prevent SQL injection
+- **MUST** sanitize and validate all user inputs before processing
+- **MUST** encrypt sensitive data at rest and in transit
+- **MUST** use the `secret` type for sensitive configuration values
+- **MUST** implement proper CSRF protection for all forms
+- **MUST** follow the principle of least privilege for all user roles
+- **MUST** sanitize data before rendering in views to prevent XSS attacks
+- **SHOULD** implement rate limiting for authentication endpoints to prevent brute force attacks
+- **MUST** use secure password hashing algorithms (BCrypt is used by Devise)
+- **MUST** validate all webhook requests with proper signature verification
+
+### Examples
+
+```ruby
+# ✅ DO: Implement proper authorization
+class ConversationsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :check_authorization
+  
+  def check_authorization
+    conversation = Conversation.find(params[:id])
+    authorize conversation, :show?
+  end
+end
+
+# ❌ DON\'T: Skip authorization checks
+class ConversationsController < ApplicationController
+  before_action :authenticate_user!
+  
+  def show
+    conversation = Conversation.find(params[:id])
+    # Missing authorization check
+  end
+end
+```
+
+```ruby
+# ✅ DO: Sanitize user input
+def process_user_input
+  sanitized_input = ActionController::Base.helpers.sanitize(params[:user_input])
+  # Process sanitized input
+end
+
+# ❌ DON\'T: Use raw user input directly
+def process_user_input
+  raw_input = params[:user_input]
+  # Process raw input directly
+end
+```
+
+```ruby
+# ✅ DO: Use parameterized queries
+def find_users_by_name(name)
+  User.where("name LIKE ?", "%#{name}%")
+end
+
+# ❌ DON\'T: Interpolate variables directly in queries
+def find_users_by_name(name)
+  User.where("name LIKE '%#{name}%'") # SQL injection risk
+end
+```
+
+### Restrictions
+
+- **MUST NOT** store plaintext passwords or sensitive data
+- **MUST NOT** disable CSRF protection
+- **MUST NOT** execute unfiltered user input as code
+- **MUST NOT** expose stack traces or detailed error messages to users
+- **MUST NOT** commit secrets or credentials to version control
+- **MUST NOT** disable security features in production environments
+
+## Conventions
+
+- Use policy objects (Pundit) for authorization logic
+- Use environment variables for secrets in production
+- Use strong parameters in controllers to filter input data
+- Follow Rails security best practices for all implementations
+- API endpoints should verify API token validity before processing requests
+
+## Security Testing Requirements
+
+1. **Authentication**: Test all authentication flows including edge cases
+2. **Authorization**: Test access controls for all roles and resources
+3. **Input Validation**: Test with malformed and malicious inputs
+4. **API Security**: Test API endpoints for proper authentication and authorization
+5. **Session Management**: Test session handling and timeouts
+6. **Dependency Security**: Regularly audit and update dependencies
+
+## Related Rules
+
+- `@automatizase-system-operations.mdc`
+- `@automatizase-integration-development.mdc`
+
+## Suggested Metadata
+---
+description: Security standards and best practices for AutomatizaSe development
+globs: ["app/controllers/**/*", "app/models/**/*", "app/services/**/*", "config/initializers/devise.rb"]
+alwaysApply: true
+---

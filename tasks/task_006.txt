@@ -1,0 +1,67 @@
+# Task ID: 6
+# Title: Design and Implement Subscription Plans System
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Adapt the existing Chatwoot subscription plans system to implement the 4 specific AutomatizaSE pricing tiers: Gratis (Free), Pro (renamed from Startup), Business, and Enterprise. Add 7-day free trial functionality for all paid plans before Stripe billing begins.
+# Details:
+Adapt existing Chatwoot Plan model to implement the 4 specific AutomatizaSE plans: Gratis (R$0/mês, up to 2 agents, 1 WhatsApp inbox, 500 conversations/month), Pro (renamed from Startup - R$95/agent/month with additional channels), Business (R$195/agent/month with teams and automation), and Enterprise (R$495/agent/month with custom AI and integrations). Implement 7-day free trial period for all paid plans (Pro, Business, Enterprise) before Stripe billing begins. Modify existing plan features and limits to match AutomatizaSE specifications. Update plan comparison logic and upgrade/downgrade paths between the 4 tiers. Configure trial period logic that delays Stripe charges for 7 days on paid plan subscriptions. Update plan serializers for API responses including feature matrices. Configure specific plan limits: agents (2 for Gratis, unlimited for paid plans), inboxes (1 WhatsApp for Gratis, multiple channels for others), conversations (500/month for Gratis), and data retention (30 days for Gratis). Implement feature flags for channel access (Email, Facebook, Instagram, SMS, Telegram, etc.), advanced features (Teams, Automation, Campaigns), and integrations (CRM, Captain AI, External APIs).
+
+# Test Strategy:
+Test adaptation of existing plans to AutomatizaSE specifications. Verify plan renaming from Startup to Pro works correctly. Test 7-day free trial implementation for paid plans - ensure Stripe billing is delayed. Verify Stripe products are updated correctly for each pricing tier. Test plan comparison showing feature differences between Gratis, Pro, Business, and Enterprise. Validate specific plan limits are enforced: agent limits, conversation limits, channel restrictions, and retention periods. Test upgrade/downgrade paths between all plan combinations. Verify feature flags correctly enable/disable functionality based on plan tier. Test free Gratis plan doesn't create Stripe charges. Test trial period expiration triggers proper Stripe billing.
+
+# Subtasks:
+## 6.1. Adapt existing Plan model for AutomatizaSE specifications [pending]
+### Dependencies: None
+### Description: Modify existing Chatwoot Plan model to match AutomatizaSE pricing and features in Brazilian Reais
+### Details:
+
+
+## 6.2. Configure Gratis plan (Free tier) with specific limitations [pending]
+### Dependencies: None
+### Description: Adapt existing free plan to Gratis with 2 agent limit, 1 WhatsApp inbox, 500 conversations/month, 30-day retention
+### Details:
+
+
+## 6.3. Rename Startup plan to Pro and configure features [pending]
+### Dependencies: None
+### Description: Rename existing Startup plan to Pro at R$95/agent/month with Email, Facebook, Instagram, WhatsApp extra, SMS, Telegram, Line, API Channel access
+### Details:
+
+
+## 6.4. Adapt Business plan with advanced features [pending]
+### Dependencies: None
+### Description: Modify existing Business plan to R$195/agent/month with Teams, Automation, Agent Capacity, Campaigns, CSAT/SLA Reports
+### Details:
+
+
+## 6.5. Adapt Enterprise plan with custom integrations [pending]
+### Dependencies: None
+### Description: Modify existing Enterprise plan to R$495/agent/month with Custom AI Agent Creation, External Integrations, dedicated support
+### Details:
+
+
+## 6.6. Implement 7-day free trial for paid plans [pending]
+### Dependencies: None
+### Description: Add trial period functionality that provides 7 days free access to Pro, Business, and Enterprise plans before Stripe billing begins
+### Details:
+
+
+## 6.7. Update existing feature flags system for plan-based access control [pending]
+### Dependencies: None
+### Description: Adapt existing feature flag system to enable/disable channels, automation, teams, and integrations based on user's plan tier
+### Details:
+
+
+## 6.8. Update plan comparison and upgrade flow UI [pending]
+### Dependencies: None
+### Description: Modify existing plan comparison interface to show feature matrix between Gratis, Pro, Business, and Enterprise with trial information
+### Details:
+
+
+## 6.9. Update Stripe integration for trial period and Brazilian pricing [pending]
+### Dependencies: None
+### Description: Modify existing Stripe integration to handle 7-day trial delays and update pricing in BRL for Pro, Business, and Enterprise plans
+### Details:
+
+

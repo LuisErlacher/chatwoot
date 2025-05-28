@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Configure Stripe Integration for Brazilian Market
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Adapt existing Chatwoot Stripe integration from self-hosted cloud configuration to standard self-hosted setup, specifically configured for Brazilian Real (BRL) payments and local market requirements
+# Details:
+Adapt the existing Chatwoot Stripe billing system from cloud configuration to standard self-hosted deployment. The billing system already exists and functions - focus on modifying configuration rather than creating new integration. Configure existing Stripe setup for BRL currency and Brazilian market requirements. Adapt existing webhook endpoints for self-hosted environment. Implement Brazilian tax ID (CPF/CNPJ) collection and validation using cpf_cnpj gem within existing billing flow. Configure existing Stripe Customer Portal for Brazilian users with Portuguese interface. Ensure existing payment methods work with Brazilian requirements (credit cards, PIX if available). Adapt existing error handling for Brazilian banking regulations. Verify existing webhook signature verification works in self-hosted setup. Configure existing retry logic for failed payments with Brazilian banking considerations.
+
+# Test Strategy:
+Test adapted Stripe integration with Brazilian test cards and payment methods. Verify existing webhook endpoints work correctly in self-hosted environment. Test CPF/CNPJ validation integration with existing billing system. Validate currency formatting displays correctly in BRL within existing UI. Test existing payment failure scenarios and retry mechanisms work with Brazilian requirements.

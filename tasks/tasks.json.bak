@@ -1,0 +1,482 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Setup Project Infrastructure and Development Environment",
+      "description": "Initialize the project repository, configure development environment, and establish the foundation for incremental translation and rebranding approach",
+      "details": "Fork the latest Chatwoot repository and set up development environment with Ruby 3.2+, Rails 7.0+, Node.js 18+, and PostgreSQL 14+. Configure Docker containers for consistent development. Set up Git workflow with feature branches for incremental changes. Install i18n gems (rails-i18n, i18n-tasks) and configure locale structure for pt-BR. Create environment variables for Stripe integration (STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET). Set up code quality tools (RuboCop, ESLint) with Brazilian Portuguese locale support.",
+      "testStrategy": "Verify all dependencies install correctly, Docker containers start without errors, and basic Chatwoot functionality works. Test locale configuration loads pt-BR properly. Validate environment variables are properly configured for development and production environments.",
+      "priority": "high",
+      "dependencies": [],
+      "status": "in-progress",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Fork Chatwoot Repository and Verify Dependencies",
+          "description": "Fork the latest Chatwoot repository and verify all required dependency versions are compatible with the target environment",
+          "dependencies": [],
+          "details": "Fork the official Chatwoot repository to your organization account. Clone locally and check current versions in Gemfile, package.json, and Dockerfile. Verify Ruby 3.2+, Rails 7.0+, Node.js 18+, and PostgreSQL 14+ compatibility. Document any version mismatches that need addressing.\n<info added on 2025-05-28T16:45:53.802Z>\n## Análise de Dependências Concluída ✅\n\n### Versões Atuais Identificadas:\n\n**Ruby & Rails:**\n- Ruby: 3.3.3 (Gemfile e .ruby-version) ✅ SUPERIOR ao requisito 3.2+\n- Rails: ~> 7.0.8.4 (Gemfile) ✅ ATENDE ao requisito 7.0+\n- Bundler: 2.5.11 (Dockerfile)\n\n**Node.js & JavaScript:**\n- Node.js no projeto: 23.x (package.json engines) ✅ SUPERIOR ao requisito 18+\n- Node.js no WSL: v18.19.1 ⚠️ INFERIOR ao configurado no projeto\n- .nvmrc: 20.5.1 ⚠️ DESATUALIZADO em relação ao package.json\n- PNPM: 10.x (package.json) ✅ MODERNO\n\n**Database:**\n- PostgreSQL: 16 (docker-compose.yaml com pgvector) ✅ SUPERIOR ao requisito 14+\n- Redis: alpine (docker-compose.yaml) ✅ OK\n\n**Docker:**\n- Docker: 28.1.1 ✅ MODERNO\n- Docker Compose: v2.35.1 ✅ MODERNO\n\n### Inconsistências Identificadas:\n1. **Node.js**: .nvmrc (20.5.1) vs package.json engines (23.x) vs WSL atual (18.19.1)\n2. **Ruby**: WSL não tem Ruby instalado (usando Docker)\n\n### Recomendações:\n1. Atualizar .nvmrc para 23.x para consistência\n2. Usar Docker para desenvolvimento (Ruby não instalado localmente)\n3. Verificar se todas as dependências JavaScript são compatíveis com Node 23.x\n4. Projeto já está bem configurado para os requisitos da AutomatizaSE\n</info added on 2025-05-28T16:45:53.802Z>",
+          "status": "done",
+          "testStrategy": "Run `bundle check` and `npm audit` to verify dependency compatibility"
+        },
+        {
+          "id": 2,
+          "title": "Configure Docker Development Environment",
+          "description": "Set up and validate Docker containers for consistent development environment across the team",
+          "dependencies": [
+            1
+          ],
+          "details": "Review existing docker-compose.yml and Dockerfile configurations. Update base images to ensure Ruby 3.2+, Node.js 18+, and PostgreSQL 14+ versions. Configure volume mounts for development. Add health checks for all services. Test container startup and service connectivity.\n<info added on 2025-05-28T16:48:09.869Z>\nDocker environment successfully configured and validated. Created .env file with secure credentials including SECRET_KEY_BASE (128-character secure key), REDIS_PASSWORD (automatizase_redis_dev), and POSTGRES_PASSWORD (automatizase_postgres_dev). Docker Compose validation passed with all services properly configured: rails app on port 3000, PostgreSQL 16 with pgvector on port 5432, Redis Alpine with authentication on port 6379, Sidekiq worker for background jobs, Vite development server on port 3036, and MailHog email server on ports 1025/8025. Volume mounts established for bundle, cache, node_modules, packs, postgres, and redis. Network chatwoot_default configured for inter-service communication. Infrastructure ready for container build and execution.\n</info added on 2025-05-28T16:48:09.869Z>",
+          "status": "done",
+          "testStrategy": "Execute `docker-compose up` and verify all services start successfully with proper health checks"
+        },
+        {
+          "id": 3,
+          "title": "Setup Git Workflow and Branch Strategy",
+          "description": "Establish Git workflow with feature branches for incremental AutomatizaSE development",
+          "dependencies": [
+            1
+          ],
+          "details": "Configure Git flow with main, develop, and feature branches. Set up branch protection rules. Create initial feature branch for AutomatizaSE customizations. Configure .gitignore for Ruby/Rails/Node.js projects. Set up commit message templates and pre-commit hooks.\n<info added on 2025-05-28T16:50:41.199Z>\n## Situação Atual do Git Workflow ✅\n\n### Status Identificado:\n- **Repositório atual**: git@github.com:LuisErlacher/chatwoot.git\n- **Branch ativa**: feature/desbloqueio-enterprise \n- **Branch principal upstream**: main (origin/main)\n- **Outras branches**: develop, v4.1.0\n\n### Modificações Pendentes:\n- `.env.example` (modificado)\n- `.gitignore` (modificado) \n- `.nvmrc` (modificado)\n- Arquivos não rastreados: .roo/, .taskmasterconfig, memory-bank/, prd.md, scripts/\n\n### Próximos Passos:\n1. Configurar .gitignore adequadamente para projeto AutomatizaSE\n2. Criar commit das alterações atuais\n3. Configurar branch protection rules no GitHub\n4. Documentar workflow de desenvolvimento para a equipe\n5. Configurar pre-commit hooks para qualidade de código\n</info added on 2025-05-28T16:50:41.199Z>\n<info added on 2025-05-28T16:59:21.059Z>\n## Git Workflow Configurado com Sucesso ✅\n\n### Configurações Implementadas:\n\n1. **Template de Commit (.gitmessage)**:\n   - Conventional commits em português\n   - Escopos específicos para AutomatizaSE (subscription, stripe, i18n, etc.)\n   - Configurado no Git local: `git config commit.template .gitmessage`\n\n2. **Gitignore Atualizado**:\n   - Arquivos específicos do AutomatizaSE (.taskmasterconfig, memory-bank/, etc.)\n   - Configurações do Cursor AI (.cursor/, .roo/, etc.)\n   - Arquivos de desenvolvimento (prd.md, dev-notes.md)\n\n3. **Versão Node.js Consistente**:\n   - .nvmrc atualizado para 23.7.0 (consistente com package.json)\n\n4. **Documentação Completa (WORKFLOW_GIT.md)**:\n   - Processo de desenvolvimento detalhado\n   - Convenções de nomenclatura de branches\n   - Configuração de ambiente\n   - Troubleshooting e comandos úteis\n\n5. **Pre-commit Hooks Validados**:\n   - Husky já configurado com ESLint, RuboCop, Prettier\n   - lint-staged funcionando para JavaScript/Vue e SCSS\n\n### Commit Realizado:\n- Commit: `740786e4a` - \"chore(config): configura Git workflow para AutomatizaSE\"\n- 4 arquivos modificados, 297 inserções\n\n### Status Final:\nTask 1.3 está completa e pronta para ser marcada como \"done\". Próxima task: 1.4 - Install and Configure i18n Infrastructure\n</info added on 2025-05-28T16:59:21.059Z>",
+          "status": "done",
+          "testStrategy": "Create test feature branch and verify branch protection rules work correctly"
+        },
+        {
+          "id": 4,
+          "title": "Install and Configure i18n Infrastructure",
+          "description": "Set up internationalization gems and configure locale structure specifically for Brazilian Portuguese",
+          "dependencies": [
+            2
+          ],
+          "details": "Add rails-i18n and i18n-tasks gems to Gemfile. Configure config/application.rb with pt-BR as default locale. Create locale directory structure (config/locales/pt-BR/). Set up i18n-tasks configuration file. Initialize base translation files for pt-BR locale.\n<info added on 2025-05-28T18:09:40.585Z>\n✅ CONCLUÍDO: Infraestrutura de i18n configurada com sucesso!\n\n## Implementações realizadas:\n\n### 1. Gems de i18n adicionadas ao Gemfile:\n- `rails-i18n` - Traduções padrão do Rails para pt-BR\n- `i18n-tasks` - Ferramenta para gerenciar traduções\n\n### 2. Configuração do Rails (config/application.rb):\n- Locale padrão definido como pt-BR: `config.i18n.default_locale = :'pt-BR'`\n- Locales disponíveis: pt-BR e en\n- Fallbacks configurados para pt-BR\n- Caminhos de carregamento de traduções configurados\n\n### 3. Arquivo de configuração i18n-tasks.yml criado:\n- Base locale: pt-BR\n- Caminhos de busca configurados para app/, lib/, enterprise/\n- Configuração para ignorar traduções do Devise e outras gems\n- Suporte para Google Translate API\n\n### 4. Estrutura de diretórios:\n- Diretório config/locales/pt-BR/ criado para organização\n- Arquivo pt_BR.yml já existente com traduções extensas\n\n### 5. Verificação de saúde:\n- Comando `i18n-tasks health` executado com sucesso\n- Configuração validada sem erros de interpolação\n- Identificadas traduções faltantes (esperado para próximas tasks)\n\n## Próximos passos:\nA infraestrutura está pronta para as próximas tasks de tradução nativa e incremental. O sistema pode agora detectar e gerenciar traduções em português brasileiro.\n</info added on 2025-05-28T18:09:40.585Z>",
+          "status": "done",
+          "testStrategy": "Run `i18n-tasks health` to verify i18n configuration and test locale switching"
+        },
+        {
+          "id": 5,
+          "title": "Configure Environment Variables and Secrets",
+          "description": "Set up environment variables for Stripe integration and other AutomatizaSE-specific configurations",
+          "dependencies": [
+            2
+          ],
+          "details": "Create .env.example with required variables: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET. Configure Rails credentials for production secrets. Set up environment-specific variable loading. Document all required environment variables for team setup.",
+          "status": "in-progress",
+          "testStrategy": "Verify environment variables load correctly in development and test environments"
+        },
+        {
+          "id": 6,
+          "title": "Install and Configure Code Quality Tools",
+          "description": "Set up RuboCop, ESLint, and other code quality tools with Brazilian Portuguese locale support",
+          "dependencies": [
+            3
+          ],
+          "details": "Add RuboCop, rubocop-rails, and rubocop-rspec to Gemfile. Configure .rubocop.yml with project-specific rules. Set up ESLint with appropriate plugins for React/Vue components. Configure Prettier for consistent formatting. Add pre-commit hooks for code quality checks.",
+          "status": "pending",
+          "testStrategy": "Run `rubocop` and `eslint` on existing codebase to verify configuration works"
+        },
+        {
+          "id": 7,
+          "title": "Initialize Database and Run Application Setup",
+          "description": "Set up PostgreSQL database, run migrations, and verify the application starts successfully",
+          "dependencies": [
+            4,
+            5
+          ],
+          "details": "Configure database.yml for PostgreSQL 14+. Run `rails db:create db:migrate db:seed` to initialize database. Verify all existing migrations run successfully. Test application startup with `rails server`. Ensure all services connect properly.",
+          "status": "pending",
+          "testStrategy": "Access application at localhost:3000 and verify login functionality works"
+        },
+        {
+          "id": 8,
+          "title": "Validate Complete Infrastructure Setup",
+          "description": "Run comprehensive tests to ensure all infrastructure components work together correctly",
+          "dependencies": [
+            6,
+            7
+          ],
+          "details": "Execute full test suite with `bundle exec rspec` and `npm test`. Verify Docker environment works end-to-end. Test i18n locale switching. Validate environment variables are properly loaded. Confirm code quality tools run without errors. Document any remaining setup issues.",
+          "status": "pending",
+          "testStrategy": "Run complete test suite and perform manual smoke testing of key application features"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Implement Core Translation Infrastructure",
+      "description": "Create the foundational translation system supporting both incremental and native translation approaches",
+      "details": "Set up Rails I18n with pt-BR as default locale. Create comprehensive locale files structure: config/locales/pt-BR/ with subdirectories for different modules (dashboard, settings, conversations, etc.). Implement translation helpers and view components that automatically use pt-BR translations. Create translation management system using i18n-tasks gem for tracking missing translations. Set up automated translation validation using i18n-spec gem. Configure frontend i18n using vue-i18n 9.x for Vue.js components. Create translation guidelines document defining tone, terminology, and cultural adaptations for Brazilian Portuguese.",
+      "testStrategy": "Test that all existing UI elements can be translated without breaking functionality. Verify translation fallbacks work correctly. Test pluralization rules for Portuguese. Validate that new components automatically use the translation system.",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Native Translation of Static Components",
+      "description": "Translate all static components, email templates, and administrative interfaces that won't be affected by incremental development",
+      "details": "Translate all email templates in app/views/mailer/ to Brazilian Portuguese, adapting cultural context and business terminology. Update super admin interface translations in app/views/super_admin/. Translate static pages, error pages (404, 500), and authentication flows. Update API documentation and help text. Translate notification messages, validation errors, and system alerts. Create Brazilian Portuguese versions of onboarding flows and help documentation. Update meta tags, page titles, and SEO content for pt-BR. Ensure all date/time formats follow Brazilian standards (DD/MM/YYYY).",
+      "testStrategy": "Test all email templates render correctly in Portuguese with proper encoding. Verify super admin interface is fully functional in Portuguese. Test error pages display correctly. Validate that all static content maintains proper formatting and cultural context.",
+      "priority": "high",
+      "dependencies": [
+        2
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Implement AutomatizaSE Rebranding System",
+      "description": "Create a comprehensive rebranding system to replace Chatwoot with AutomatizaSE across the platform",
+      "details": "Create brand configuration system in config/brand.yml with AutomatizaSE assets and colors. Replace logos, favicons, and brand assets in app/assets/images/. Update CSS variables for AutomatizaSE color scheme using CSS custom properties. Create brand helper methods for dynamic brand name insertion. Update application.html.erb and other layout files with AutomatizaSE branding. Implement brand-aware email templates using ActionMailer with AutomatizaSE styling. Update manifest.json and PWA configurations. Create brand constants in Rails initializers for consistent brand name usage. Update meta tags and Open Graph data for AutomatizaSE.",
+      "testStrategy": "Verify all brand assets load correctly across different browsers and devices. Test that email templates display AutomatizaSE branding properly. Validate PWA installation shows AutomatizaSE branding. Test brand consistency across all user interfaces.",
+      "priority": "high",
+      "dependencies": [
+        2
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Configure Stripe Integration for Brazilian Market",
+      "description": "Set up Stripe integration specifically configured for Brazilian Real (BRL) payments and local market requirements",
+      "details": "Install stripe gem (latest version 8.x) and configure for BRL currency. Set up Stripe webhook endpoints using stripe-ruby-mock for testing. Configure Stripe Connect for multi-tenant architecture if needed. Implement Brazilian tax ID (CPF/CNPJ) collection and validation using cpf_cnpj gem. Set up Stripe Customer Portal for Brazilian users with Portuguese interface. Configure payment methods popular in Brazil (credit cards, PIX if available). Implement proper error handling for Brazilian banking regulations. Set up Stripe webhook signature verification for security. Configure retry logic for failed payments with Brazilian banking considerations.",
+      "testStrategy": "Test Stripe integration with Brazilian test cards and payment methods. Verify webhook endpoints receive and process events correctly. Test CPF/CNPJ validation with valid and invalid numbers. Validate currency formatting displays correctly in BRL. Test payment failure scenarios and retry mechanisms.",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Design and Implement Subscription Plans System",
+      "description": "Create a flexible subscription plans system that allows platform administrators to define and manage the 4 specific AutomatizaSE pricing tiers: Hacker (Free), Startups, Business, and Enterprise",
+      "status": "pending",
+      "dependencies": [
+        5
+      ],
+      "priority": "high",
+      "details": "Create Plan model with attributes: name, description, price_cents (using Money gem), billing_interval, features_json, limits_json, stripe_price_id. Implement the 4 specific AutomatizaSE plans: Hacker (R$0/mês, up to 2 agents, 1 WhatsApp inbox, 500 conversations/month), Startups (R$95/agent/month with additional channels), Business (R$195/agent/month with teams and automation), and Enterprise (R$495/agent/month with custom AI and integrations). Implement PlanFeature and PlanLimit models for granular control of specific features like agent limits, conversation limits, channel access, and retention periods. Create admin interface for plan management using ActiveAdmin or custom Rails admin. Implement plan comparison logic and upgrade/downgrade paths between the 4 tiers. Set up automatic Stripe product and price creation for each plan. Create plan serializers for API responses including feature matrices. Configure specific plan limits: agents (2 for Hacker, unlimited for paid plans), inboxes (1 WhatsApp for Hacker, multiple channels for others), conversations (500/month for Hacker), and data retention (30 days for Hacker). Implement feature flags for channel access (Email, Facebook, Instagram, SMS, Telegram, etc.), advanced features (Teams, Automation, Campaigns), and integrations (CRM, Captain AI, External APIs).",
+      "testStrategy": "Test creation of all 4 AutomatizaSE plans through admin interface. Verify Stripe products are created correctly for each pricing tier. Test plan comparison showing feature differences between Hacker, Startups, Business, and Enterprise. Validate specific plan limits are enforced: agent limits, conversation limits, channel restrictions, and retention periods. Test upgrade/downgrade paths between all plan combinations. Verify feature flags correctly enable/disable functionality based on plan tier. Test free Hacker plan doesn't create Stripe charges.",
+      "subtasks": [
+        {
+          "id": "6.1",
+          "title": "Create Plan model with AutomatizaSE-specific attributes",
+          "description": "Implement Plan model with fields for the 4 AutomatizaSE plans including pricing in Brazilian Reais",
+          "status": "pending"
+        },
+        {
+          "id": "6.2",
+          "title": "Define Hacker plan (Free tier) with specific limitations",
+          "description": "Create free Hacker plan with 2 agent limit, 1 WhatsApp inbox, 500 conversations/month, 30-day retention",
+          "status": "pending"
+        },
+        {
+          "id": "6.3",
+          "title": "Define Startups plan with channel expansions",
+          "description": "Create Startups plan at R$95/agent/month with Email, Facebook, Instagram, WhatsApp extra, SMS, Telegram, Line, API Channel access",
+          "status": "pending"
+        },
+        {
+          "id": "6.4",
+          "title": "Define Business plan with advanced features",
+          "description": "Create Business plan at R$195/agent/month with Teams, Automation, Agent Capacity, Campaigns, CSAT/SLA Reports",
+          "status": "pending"
+        },
+        {
+          "id": "6.5",
+          "title": "Define Enterprise plan with custom integrations",
+          "description": "Create Enterprise plan at R$495/agent/month with Custom AI Agent Creation, External Integrations, dedicated support",
+          "status": "pending"
+        },
+        {
+          "id": "6.6",
+          "title": "Implement feature flags system for plan-based access control",
+          "description": "Create feature flag system to enable/disable channels, automation, teams, and integrations based on user's plan",
+          "status": "pending"
+        },
+        {
+          "id": "6.7",
+          "title": "Create plan comparison and upgrade flow UI",
+          "description": "Build user interface showing feature matrix comparison between all 4 plans with upgrade/downgrade options",
+          "status": "pending"
+        },
+        {
+          "id": "6.8",
+          "title": "Configure Stripe integration for Brazilian pricing",
+          "description": "Set up Stripe products and prices in BRL for Startups, Business, and Enterprise plans (excluding free Hacker plan)",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Build Customer Registration and Onboarding Flow",
+      "description": "Create a comprehensive customer registration system with plan-specific Brazilian Portuguese onboarding experience for AutomatizaSE's 4 pricing tiers",
+      "status": "pending",
+      "dependencies": [
+        3,
+        4,
+        6
+      ],
+      "priority": "high",
+      "details": "Create multi-step registration form with Brazilian business information (company name, CNPJ, contact details) and plan selection. Implement email verification with AutomatizaSE branded templates. Create plan-specific onboarding wizards with progressive disclosure of features in Portuguese:\n\n🟢 Plano Hacker (Free): Simple registration without payment, mandatory WhatsApp inbox setup, optional Website Live Chat, tutorials for Private Notes, @mentions, Labels, Canned Responses, with clear limitation alerts (2 agents max, 500 conversations/month, 30 days retention).\n\n🚀 Plano Startups (R$95/agent/month): Registration with payment process, multi-channel setup (Email, Facebook, Instagram, additional WhatsApp, SMS, Telegram), Help Center and Custom Views/Filters configuration, Business Hours and Auto-responder tutorials, basic reporting introduction.\n\n💼 Plano Business (R$195/agent/month): Enterprise onboarding with Teams setup, Automation Rules and Agent Capacity configuration, Campaigns and CRM integration setup, complete CSAT/SLA reporting tutorials, Captain (Native AI) introduction.\n\n🏢 Plano Enterprise (R$495/agent/month): Dedicated onboarding with personalized support, external integrations setup (Google Calendar, Payment Gateways, ERP/CRM), Custom AI Agents configuration, corporate customization planning, advanced training sessions.\n\nImplement account isolation using row-level security or tenant-based architecture. Set up welcome email sequence with getting started guides in Portuguese. Create initial workspace setup with Brazilian business context. Implement user invitation system for team members. Add integration setup guides for popular Brazilian tools. Create contextual help system with Brazilian business examples. System must detect selected plan and guide users through plan-specific onboarding, enabling only corresponding features.",
+      "testStrategy": "Test complete registration flow for each of the 4 plans from start to finish. Verify email verification works correctly with Brazilian email providers. Test account isolation ensures data separation between customers. Validate plan-specific onboarding wizards guide users effectively through appropriate setup for their tier. Test feature restrictions are properly enforced based on plan selection. Test user invitation system with different permission levels. Verify payment processing for paid plans. Test plan upgrade/downgrade scenarios during onboarding.",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Implement Stripe Checkout and Payment Processing",
+      "description": "Build secure payment processing system integrated with Stripe for Brazilian customers",
+      "details": "Implement Stripe Checkout Sessions for plan subscriptions with BRL pricing. Create payment processing controller with proper error handling and logging. Set up subscription creation and management using Stripe Subscriptions API. Implement proration logic for plan upgrades/downgrades. Create payment confirmation pages with AutomatizaSE branding. Set up automatic invoice generation and email delivery in Portuguese. Implement payment retry logic for failed payments. Create customer portal integration for payment method management. Add support for Brazilian payment methods and tax requirements. Implement webhook processing for subscription lifecycle events.",
+      "testStrategy": "Test complete payment flow with Brazilian test cards. Verify subscription creation and activation works correctly. Test plan upgrade/downgrade scenarios with proper proration. Validate webhook processing handles all subscription events. Test payment failure and retry scenarios.",
+      "priority": "high",
+      "dependencies": [
+        5,
+        6,
+        7
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 9,
+      "title": "Build Subscription Management Interface",
+      "description": "Create user-friendly subscription management interface for account administrators",
+      "details": "Create subscription dashboard showing current plan, usage, and billing information. Implement plan comparison and upgrade interface with clear pricing in BRL. Build payment method management using Stripe Customer Portal or custom interface. Create billing history page with downloadable invoices in Portuguese. Implement subscription cancellation flow with retention strategies. Add usage monitoring and limit warnings with Brazilian Portuguese messaging. Create plan recommendation system based on current usage. Implement subscription pause/resume functionality if needed. Add team member management with role-based permissions.",
+      "testStrategy": "Test subscription dashboard displays accurate information. Verify plan upgrade/downgrade flows work correctly. Test payment method updates through customer portal. Validate billing history shows correct information and invoices download properly. Test subscription cancellation flow and retention strategies.",
+      "priority": "high",
+      "dependencies": [
+        8
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 10,
+      "title": "Implement Plan-Based Access Control System",
+      "description": "Create comprehensive access control system that enforces AutomatizaSE's 4-tier plan limits and feature restrictions (Hacker, Startups, Business, Enterprise)",
+      "status": "pending",
+      "dependencies": [
+        6,
+        9
+      ],
+      "priority": "high",
+      "details": "Create PlanEnforcer service class to check limits and permissions for AutomatizaSE's specific plans: Hacker (free), Startups (R$95/agent), Business (R$195/agent), and Enterprise (R$495/agent). Implement middleware for API endpoints to enforce plan restrictions. Create feature flags system tied to subscription plans with specific channel and functionality blocking. Implement usage tracking for billable resources (agents, conversations, storage, retention periods). Create limit warning system with Portuguese notifications for plan upgrades. Implement graceful degradation when limits are exceeded. Add plan-based UI hiding/showing of features including channels (Email, Facebook, Instagram, SMS, Telegram, Line, API Channel), functionalities (Help Center, Teams, Automation, Campaigns), and reports (CSAT/SLA). Create usage analytics dashboard for account administrators. Implement automatic plan recommendations based on usage patterns. Add soft and hard limits with appropriate user messaging in Portuguese.",
+      "testStrategy": "Test that plan limits are enforced correctly across all 4 AutomatizaSE plans. Verify Hacker plan restrictions (2 agents max, WhatsApp only, blocked channels/features). Test Startups plan channel access and feature availability. Validate Business plan automation and advanced reporting access. Confirm Enterprise plan has full feature access. Verify users receive appropriate Portuguese upgrade messages when accessing blocked features. Test feature flags hide/show functionality based on specific plan tiers. Validate usage tracking accurately counts billable resources per plan limits. Test graceful handling when limits are exceeded with proper upgrade prompts.",
+      "subtasks": [
+        {
+          "id": 101,
+          "title": "Create AutomatizaSE Plan Configuration System",
+          "description": "Define plan configurations for Hacker, Startups, Business, and Enterprise tiers with specific limits and feature flags",
+          "status": "pending"
+        },
+        {
+          "id": 102,
+          "title": "Implement Channel Access Control",
+          "description": "Block/allow channels based on plan: Hacker (WhatsApp only), Startups+ (Email, Facebook, Instagram, SMS, Telegram, Line, API Channel)",
+          "status": "pending"
+        },
+        {
+          "id": 103,
+          "title": "Create Feature-Based Access Control",
+          "description": "Implement blocking for Help Center, Teams, Automation, Campaigns, Custom Views/Filters based on plan tier",
+          "status": "pending"
+        },
+        {
+          "id": 104,
+          "title": "Implement Agent Limit Enforcement",
+          "description": "Enforce 2-agent limit for Hacker plan and unlimited agents for paid plans based on payment",
+          "status": "pending"
+        },
+        {
+          "id": 105,
+          "title": "Create Conversation and Data Retention Limits",
+          "description": "Implement 500 conversations/month limit and 30-day data retention for Hacker plan",
+          "status": "pending"
+        },
+        {
+          "id": 106,
+          "title": "Implement Report Access Control",
+          "description": "Control access to CSAT/SLA reports (Business+), basic reports (Startups+), and downloadable reports (Business+)",
+          "status": "pending"
+        },
+        {
+          "id": 107,
+          "title": "Create Portuguese Upgrade Messaging System",
+          "description": "Implement clear upgrade prompts in Portuguese when users try to access blocked features with plan pricing information",
+          "status": "pending"
+        },
+        {
+          "id": 108,
+          "title": "Implement Captain IA Access Control",
+          "description": "Block Captain IA for Hacker/Startups plans, allow native IA for Business+, and custom AI agent creation for Enterprise only",
+          "status": "pending"
+        },
+        {
+          "id": 109,
+          "title": "Create Real-time Plan Verification",
+          "description": "Implement system to check active plan status in real-time and update access permissions dynamically",
+          "status": "pending"
+        },
+        {
+          "id": 110,
+          "title": "Implement Integration Access Control",
+          "description": "Control access to CRM integrations (Business+) and external integrations like Google Calendar, Payment Gateways (Enterprise only)",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Create Platform Administrator Dashboard",
+      "description": "Build comprehensive administrative dashboard for platform owner to manage all aspects of the AutomatizaSE instance with specific metrics for the 4 AutomatizaSE plans (Hacker, Startups, Business, Enterprise)",
+      "status": "pending",
+      "dependencies": [
+        9,
+        10
+      ],
+      "priority": "medium",
+      "details": "Create admin dashboard using ActiveAdmin or custom Rails admin interface with Portuguese localization. Implement customer account management with search and filtering by plan type. Create billing analytics with plan-specific MRR tracking (Hacker: R$0, Startups: R$95, Business: R$195, Enterprise: R$495 per agent per account), churn rates by plan, and growth metrics using Chartkick or similar. Add subscription management tools for manual interventions and plan upgrades/downgrades tracking. Implement customer support tools with account impersonation capabilities and support ticket metrics by plan tier. Create plan usage analytics showing limits vs usage for Hacker plan (500 conversations/month, 2 agents, 30 days retention) and unlimited usage tracking for paid plans. Add system health monitoring and performance metrics. Implement customer communication tools for announcements and support. Create data export tools for business intelligence with Portuguese reports. Add audit logging for all administrative actions. Include conversion tracking from Hacker to paid plans, ARPU and LTV calculations by plan segment, feature adoption metrics, and growth opportunity identification for customers approaching plan limits.",
+      "testStrategy": "Test admin dashboard loads correctly with proper authentication and Portuguese localization. Verify customer search and filtering works accurately by plan type. Test billing analytics display correct MRR calculations for each plan tier. Validate plan-specific usage metrics show accurate data against limits. Test conversion tracking from Hacker to paid plans. Verify upgrade/downgrade tracking functionality. Validate account impersonation works securely. Test data export functionality produces accurate reports in Portuguese with proper plan segmentation.",
+      "subtasks": [
+        {
+          "id": 111,
+          "title": "Setup admin dashboard framework with Portuguese localization",
+          "description": "Configure ActiveAdmin or custom Rails admin interface with Portuguese language support",
+          "status": "pending"
+        },
+        {
+          "id": 112,
+          "title": "Implement plan-specific customer overview metrics",
+          "description": "Create dashboard sections showing customer distribution across Hacker, Startups, Business, and Enterprise plans with filtering capabilities",
+          "status": "pending"
+        },
+        {
+          "id": 113,
+          "title": "Build MRR analytics by plan tier",
+          "description": "Implement MRR tracking with plan-specific calculations: Hacker (R$0), Startups (R$95), Business (R$195), Enterprise (R$495) per agent per account",
+          "status": "pending"
+        },
+        {
+          "id": 114,
+          "title": "Create conversion and churn analytics",
+          "description": "Build metrics for Hacker to paid plan conversions, churn rates by plan, and upgrade/downgrade tracking between plans",
+          "status": "pending"
+        },
+        {
+          "id": 115,
+          "title": "Implement plan usage analytics and limits tracking",
+          "description": "Create usage monitoring for Hacker plan limits (500 conversations/month, 2 agents, 30 days retention) and unlimited usage tracking for paid plans",
+          "status": "pending"
+        },
+        {
+          "id": 116,
+          "title": "Build ARPU and LTV calculations by plan segment",
+          "description": "Implement Average Revenue Per User and Lifetime Value calculations segmented by plan type with trend analysis",
+          "status": "pending"
+        },
+        {
+          "id": 117,
+          "title": "Create feature adoption and growth opportunity metrics",
+          "description": "Build analytics showing feature usage by plan, channel utilization by segment, and identification of customers approaching plan limits for upgrade opportunities",
+          "status": "pending"
+        },
+        {
+          "id": 118,
+          "title": "Implement support metrics by plan tier",
+          "description": "Create support ticket analytics segmented by plan tier with response time and resolution metrics",
+          "status": "pending"
+        },
+        {
+          "id": 119,
+          "title": "Add filtering and export capabilities",
+          "description": "Implement dashboard filters by period, plan type, and region with Portuguese report export functionality",
+          "status": "pending"
+        },
+        {
+          "id": 120,
+          "title": "Create customer management and impersonation tools",
+          "description": "Build customer account management interface with secure impersonation capabilities and audit logging",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Implement Webhook Processing and Event Handling",
+      "description": "Create robust webhook processing system to handle Stripe events and maintain subscription state synchronization",
+      "details": "Create webhook controller with proper signature verification using Stripe webhook signatures. Implement event processing for subscription lifecycle (created, updated, deleted, payment_succeeded, payment_failed). Create idempotent event processing to handle duplicate webhooks. Implement background job processing using Sidekiq for webhook events. Create event logging and monitoring system. Implement automatic subscription status updates based on payment events. Create customer notification system for payment events in Portuguese. Add webhook retry mechanism for failed processing. Implement webhook endpoint health monitoring. Create manual webhook replay functionality for debugging.",
+      "testStrategy": "Test webhook signature verification rejects invalid requests. Verify all subscription events are processed correctly. Test idempotent processing prevents duplicate actions. Validate background job processing handles webhook events reliably. Test customer notifications are sent for appropriate events.",
+      "priority": "high",
+      "dependencies": [
+        5,
+        8
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 13,
+      "title": "Implement Email Notification System",
+      "description": "Create comprehensive email notification system for subscription and billing events in Brazilian Portuguese",
+      "details": "Create email templates for all subscription events (welcome, payment success, payment failed, plan changed, cancellation). Implement email template system with AutomatizaSE branding and Portuguese content. Set up email delivery using ActionMailer with proper Brazilian Portuguese localization. Create email preference management for customers. Implement email tracking and analytics. Add email template testing and preview functionality. Create automated email sequences for onboarding and retention. Implement email deliverability monitoring and bounce handling. Add personalization tokens for dynamic content. Create email template versioning system.",
+      "testStrategy": "Test all email templates render correctly with proper Portuguese content and AutomatizaSE branding. Verify emails are delivered successfully to Brazilian email providers. Test email preference management allows customers to control notifications. Validate email tracking provides accurate delivery and open rates.",
+      "priority": "medium",
+      "dependencies": [
+        3,
+        4,
+        12
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 14,
+      "title": "Implement Incremental Translation Framework",
+      "description": "Create framework for ongoing incremental translation as new features are developed or existing features are modified",
+      "details": "Create translation workflow documentation for developers. Implement automated translation checking in CI/CD pipeline using i18n-tasks. Create translation key naming conventions and guidelines. Set up translation memory system for consistency. Implement automated translation coverage reporting. Create developer tools for easy translation key generation. Set up translation review process with Brazilian Portuguese experts. Implement translation testing framework to catch missing translations. Create translation update notifications for when new keys are added. Add translation completion tracking dashboard.",
+      "testStrategy": "Test that CI/CD pipeline catches missing translations in new code. Verify translation tools help developers add translations correctly. Test translation coverage reporting shows accurate completion percentages. Validate translation review process maintains quality and consistency.",
+      "priority": "medium",
+      "dependencies": [
+        2,
+        3
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 15,
+      "title": "Comprehensive Testing and Quality Assurance",
+      "description": "Conduct thorough testing of the complete AutomatizaSE platform including payment flows, translations, and user experience",
+      "details": "Create comprehensive test suite covering all payment scenarios with Brazilian test data. Implement end-to-end testing using Cypress or Playwright for complete user journeys. Test translation quality and cultural appropriateness with native Brazilian Portuguese speakers. Perform security testing for payment processing and data protection. Test performance with realistic Brazilian internet conditions. Implement accessibility testing for Brazilian users. Create load testing scenarios for subscription and billing systems. Test email deliverability with major Brazilian email providers. Perform cross-browser testing with browsers popular in Brazil. Create user acceptance testing scenarios with Brazilian business contexts.",
+      "testStrategy": "Execute complete test suite and achieve 95%+ pass rate. Verify all payment flows work correctly with Brazilian payment methods. Validate translation quality meets Brazilian Portuguese standards. Confirm security testing passes all requirements. Test performance meets acceptable standards for Brazilian users.",
+      "priority": "high",
+      "dependencies": [
+        11,
+        13,
+        14
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 16,
+      "title": "Implement WhatsApp Integration using Evolution API",
+      "description": "Create a dedicated WhatsApp inbox integration using Evolution API with Baileys, enabling custom inbox creation, QR code scanning, SMS verification, and connection management for unofficial WhatsApp instances.",
+      "details": "Implement a comprehensive WhatsApp integration module using Evolution API REST endpoints. Create a new inbox provider class inheriting from Chatwoot's base inbox structure. Set up API client for Evolution API communication with proper authentication and error handling. Implement instance creation functionality using Baileys through POST /instance/create endpoint with custom instance names. Build QR code generation and display interface by calling GET /instance/connect/{instanceName} and rendering the base64 QR code image in the frontend. Implement SMS code verification as alternative connection method using POST /instance/code endpoint. Create connection status monitoring using GET /instance/connectionState/{instanceName} with real-time updates via WebSocket or polling. Add webhook configuration for receiving messages using POST /webhook/set endpoint pointing to Chatwoot's webhook handler. Implement message sending capabilities using POST /message/sendText and POST /message/sendMedia endpoints. Create inbox configuration UI allowing users to set custom names, choose connection methods (QR/SMS), and monitor connection status. Add proper error handling for API failures, connection timeouts, and instance management issues. Ensure proper cleanup of disconnected instances and implement reconnection logic. Store Evolution API credentials and instance configurations securely in encrypted application credentials.",
+      "testStrategy": "Create comprehensive test suite including unit tests for Evolution API client methods, integration tests for instance creation and connection flows, and end-to-end tests for complete WhatsApp inbox setup. Test QR code generation and display functionality with mock Evolution API responses. Verify SMS verification flow with test phone numbers. Test message sending and receiving through webhook endpoints using ngrok for local development. Validate connection status monitoring with simulated connection state changes. Test error handling scenarios including API timeouts, invalid credentials, and network failures. Perform load testing with multiple concurrent WhatsApp instances. Verify proper cleanup of disconnected instances and test reconnection scenarios. Test inbox configuration UI across different browsers and screen sizes. Validate webhook security and message processing accuracy.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "subtasks": []
+    }
+  ]
+}

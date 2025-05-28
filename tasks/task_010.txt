@@ -1,0 +1,85 @@
+# Task ID: 10
+# Title: Implement Plan-Based Access Control System
+# Status: pending
+# Dependencies: 6, 9
+# Priority: high
+# Description: Adapt existing Chatwoot access control system to enforce AutomatizaSE's 4-tier plan limits and feature restrictions (Gratis, Pro, Business, Enterprise) with 7-day trial implementation
+# Details:
+Adapt existing Chatwoot plan enforcement system to AutomatizaSE's specific plans: Gratis (free), Pro (R$95/agent, formerly Startup), Business (R$195/agent), and Enterprise (R$495/agent). Modify existing feature flags system to align with new plan structure. Implement 7-day trial functionality within current system architecture. Analyze and adapt current plan restriction mechanisms for channels (Email, Facebook, Instagram, SMS, Telegram, Line, API Channel), functionalities (Help Center, Teams, Automation, Campaigns), and reports (CSAT/SLA). Update existing usage tracking for billable resources to match new plan limits. Adapt current limit warning system with Portuguese notifications for plan upgrades. Modify existing graceful degradation handling when limits are exceeded. Update plan-based UI hiding/showing of features. Enhance existing usage analytics dashboard for account administrators. Adapt automatic plan recommendations based on usage patterns. Update soft and hard limits with appropriate user messaging in Portuguese.
+
+# Test Strategy:
+Test that adapted plan limits are enforced correctly across all 4 AutomatizaSE plans using existing Chatwoot infrastructure. Verify Gratis plan restrictions (2 agents max, WhatsApp only, blocked channels/features). Test Pro plan channel access and feature availability. Validate Business plan automation and advanced reporting access. Confirm Enterprise plan has full feature access. Verify 7-day trial functionality works correctly with existing system. Test that existing feature flags properly hide/show functionality based on adapted plan tiers. Validate adapted usage tracking accurately counts billable resources per new plan limits. Test graceful handling when limits are exceeded with proper upgrade prompts using existing mechanisms.
+
+# Subtasks:
+## 101. Analyze Existing Chatwoot Plan System [pending]
+### Dependencies: None
+### Description: Study current Chatwoot plan configuration system and document how it works, including existing feature flags and restriction mechanisms
+### Details:
+
+
+## 102. Adapt Plan Configuration for AutomatizaSE [pending]
+### Dependencies: None
+### Description: Modify existing plan configurations to match Gratis, Pro, Business, and Enterprise tiers with specific limits and feature flags
+### Details:
+
+
+## 103. Update Channel Access Control [pending]
+### Dependencies: None
+### Description: Adapt existing channel restrictions: Gratis (WhatsApp only), Pro+ (Email, Facebook, Instagram, SMS, Telegram, Line, API Channel)
+### Details:
+
+
+## 104. Modify Feature-Based Access Control [pending]
+### Dependencies: None
+### Description: Update existing feature blocking for Help Center, Teams, Automation, Campaigns, Custom Views/Filters based on new plan tier structure
+### Details:
+
+
+## 105. Adapt Agent Limit Enforcement [pending]
+### Dependencies: None
+### Description: Modify existing agent limit system to enforce 2-agent limit for Gratis plan and unlimited agents for paid plans
+### Details:
+
+
+## 106. Update Conversation and Data Retention Limits [pending]
+### Dependencies: None
+### Description: Adapt existing retention system to implement 500 conversations/month limit and 30-day data retention for Gratis plan
+### Details:
+
+
+## 107. Modify Report Access Control [pending]
+### Dependencies: None
+### Description: Update existing report restrictions for CSAT/SLA reports (Business+), basic reports (Pro+), and downloadable reports (Business+)
+### Details:
+
+
+## 108. Implement 7-Day Trial System [pending]
+### Dependencies: None
+### Description: Add 7-day trial functionality to existing Chatwoot plan system, allowing users to test paid features before subscribing
+### Details:
+
+
+## 109. Update Portuguese Upgrade Messaging [pending]
+### Dependencies: None
+### Description: Modify existing upgrade prompts to use Portuguese language with AutomatizaSE plan pricing information
+### Details:
+
+
+## 110. Adapt Captain IA Access Control [pending]
+### Dependencies: None
+### Description: Update existing AI feature restrictions: block Captain IA for Gratis/Pro plans, allow native IA for Business+, and custom AI agent creation for Enterprise only
+### Details:
+
+
+## 111. Enhance Real-time Plan Verification [pending]
+### Dependencies: None
+### Description: Improve existing real-time plan checking system to work with new AutomatizaSE plan structure and trial functionality
+### Details:
+
+
+## 112. Update Integration Access Control [pending]
+### Dependencies: None
+### Description: Modify existing integration restrictions for CRM integrations (Business+) and external integrations like Google Calendar, Payment Gateways (Enterprise only)
+### Details:
+
+
