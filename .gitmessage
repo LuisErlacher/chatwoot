@@ -1,0 +1,38 @@
+# Título: tipo(escopo): descrição breve em português
+#
+# Tipos válidos:
+# feat: nova funcionalidade
+# fix: correção de bug
+# docs: alterações na documentação
+# style: formatação, ponto e vírgula ausente, etc; sem mudança de código
+# refactor: refatoração de código de produção
+# test: adição de testes, refatoração de teste; sem mudança de código de produção
+# chore: atualização de tasks de build, configuração de package manager, etc; sem mudança de código de produção
+# ci: alterações em arquivos e scripts de configuração de CI
+# perf: mudança de código que melhora performance
+# revert: reverte um commit anterior
+#
+# Escopos sugeridos para AutomatizaSE:
+# subscription: planos e assinaturas
+# stripe: integração com Stripe
+# i18n: tradução e internacionalização
+# auth: autenticação e autorização
+# ui: interface do usuário
+# api: API e endpoints
+# database: migrações e modelos
+# config: configurações
+# test: testes
+#
+# Corpo: Explique o QUE e POR QUE vs. como
+# - Use imperativos: "muda" não "mudou" nem "muda"
+# - Inclua motivação para a mudança e contraste com comportamento anterior
+#
+# Rodapé: Issues relacionadas, breaking changes
+# - BREAKING CHANGE: descrição da mudança incompatível
+# - Closes #123
+# - Refs #456
+#
+# Exemplos:
+# feat(subscription): adiciona sistema de planos AutomatizaSE
+# fix(stripe): corrige cálculo de taxas em BRL
+# docs(i18n): atualiza documentação de tradução pt-BR 

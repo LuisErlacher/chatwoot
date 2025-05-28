@@ -94,3 +94,39 @@ yarn-debug.log*
 
 # Claude.ai config file
 CLAUDE.md
+
+# AutomatizaSE Project Specific
+# Task Master configuration and files
+.taskmasterconfig
+memory-bank/
+scripts/task-complexity-report.json
+
+# Cursor AI configuration
+.cursor/
+.roo/
+.roomodes
+.windsurfrules
+
+# AutomatizaSE development files
+prd.md
+dev-notes.md
+
+# Added by Claude Task Master
+# Logs
+logs
+npm-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+node_modules/
+# Environment variables
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+# Task files - keeping tasks/ for version control but ignoring tasks.json
+tasks.json
+tasks/ 
