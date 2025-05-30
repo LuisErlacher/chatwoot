@@ -1,8 +1,8 @@
 tags:
-  - Accounts
+  - Contas
 operationId: create-an-account
-summary: Create an Account
-description: Create an Account
+summary: Criar uma Conta
+description: Criar uma Conta
 security:
   - platformAppApiKey: []
 parameters:
@@ -13,8 +13,8 @@ parameters:
       $ref: '#/definitions/account_create_update_payload'
 responses:
   200:
-    description: Success
+    description: Sucesso
     schema:
       $ref: '#/definitions/platform_account'
   401:
-    description: Unauthorized
+    description: Não Autorizado

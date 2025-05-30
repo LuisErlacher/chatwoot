@@ -1,0 +1,65 @@
+# AutomatizaSE Brand Configuration
+# This file contains brand-specific configurations for AutomatizaSE
+# These configurations override the default Chatwoot branding
+
+brand:
+  name: 'AutomatizaSE'
+  display_name: 'AutomatizaSE'
+  tagline: 'Automatize seu atendimento ao cliente'
+  description: 'Plataforma brasileira de atendimento ao cliente com automação inteligente'
+  
+  # URLs
+  website: 'https://www.automatizase.com'
+  support_email: 'contato@automatizase.com'
+  terms_url: 'https://www.automatizase.com/termos-de-servico'
+  privacy_url: 'https://www.automatizase.com/politica-de-privacidade'
+  
+  # Assets
+  logo: '/brand-assets/automatizase-logo.svg'
+  logo_dark: '/brand-assets/automatizase-logo-dark.svg'
+  logo_thumbnail: '/brand-assets/automatizase-logo-thumbnail.svg'
+  favicon: '/brand-assets/favicon.ico'
+  
+  # Colors (Brazilian theme)
+  colors:
+    primary: '#1B5E20'      # Verde brasileiro escuro
+    secondary: '#4CAF50'    # Verde brasileiro médio
+    accent: '#FFD700'       # Amarelo brasileiro
+    success: '#4CAF50'      # Verde sucesso
+    warning: '#FF9800'      # Laranja aviso
+    error: '#F44336'        # Vermelho erro
+    info: '#2196F3'         # Azul informação
+    
+    # Tons de verde brasileiro
+    primary_light: '#66BB6A'
+    primary_dark: '#2E7D32'
+    
+    # Cores neutras
+    background: '#FAFAFA'
+    surface: '#FFFFFF'
+    text_primary: '#212121'
+    text_secondary: '#757575'
+    
+  # Typography
+  fonts:
+    primary: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    secondary: 'Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    
+  # Social Media
+  social:
+    twitter: '@automatizase'
+    linkedin: 'company/automatizase'
+    facebook: 'automatizase'
+    instagram: '@automatizase'
+    
+  # Localization
+  locale: 'pt-BR'
+  timezone: 'America/Sao_Paulo'
+  currency: 'BRL'
+  
+  # Features
+  features:
+    brazilian_date_format: true
+    brazilian_phone_format: true
+    brazilian_currency: true
+    cpf_cnpj_validation: true 

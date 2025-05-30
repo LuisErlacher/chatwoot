@@ -1,8 +1,8 @@
 tags:
-  - Contacts API
+  - API de Contatos
 operationId: create-a-contact
-summary: Create a contact
-description: Create a contact
+summary: Criar um contato
+description: Criar um contato
 security: []
 parameters:
   - name: data
@@ -12,8 +12,8 @@ parameters:
       $ref: '#/definitions/public_contact_create_update_payload'
 responses:
   200:
-    description: Success
+    description: Sucesso
     schema:
       $ref: '#/definitions/public_contact'
   401:
-    description: Unauthorized
+    description: Não Autorizado

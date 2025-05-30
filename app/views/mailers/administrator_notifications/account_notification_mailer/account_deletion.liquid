@@ -1,16 +1,16 @@
-<p>Hello,</p>
+<p>Olá,</p>
 
-<p>Your account <strong>{{ meta.account_name }}</strong> has been marked for deletion. The account will be permanently deleted on <strong>{{ meta.deletion_date }}</strong>.</p>
+<p>Sua conta <strong>{{ meta.account_name }}</strong> foi marcada para exclusão. A conta será permanentemente excluída em <strong>{{ meta.deletion_date }}</strong>.</p>
 
 {% if meta.reason == 'manual_deletion' %}
-<p>This action was requested by one of the administrators of your account.</p>
+<p>Esta ação foi solicitada por um dos administradores da sua conta.</p>
 {% else %}
-<p>Reason for deletion: {{ meta.reason }}</p>
+<p>Motivo da exclusão: {{ meta.reason }}</p>
 {% endif %}
 
-<p>If this was done in error, you can cancel the deletion process by visiting your account settings.</p>
+<p>Se isso foi feito por engano, você pode cancelar o processo de exclusão visitando as configurações da sua conta.</p>
 
-<p><a href="{{ action_url }}">Cancel Account Deletion</a></p>
+<p><a href="{{ action_url }}">Cancelar Exclusão da Conta</a></p>
 
-<p>Thank you,<br>
-Team Chatwoot</p> 
+<p>Obrigado,<br>
+Equipe AutomatizaSE</p> 

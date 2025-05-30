@@ -124,4 +124,9 @@ node_modules/
 .cursor/mcp.json
 
 # Note: .cursor/rules/, coverage/, and tasks/ are included in version control
-# These contain important project configuration and test coverage reports 
+# These contain important project configuration and test coverage reports
+
+# Added by Claude Task Master
+# Task files
+tasks.json
+tasks/ 

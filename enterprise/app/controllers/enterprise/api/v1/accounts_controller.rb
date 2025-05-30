@@ -13,24 +13,27 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = if default_plan?(@account)
-               {
-                 'conversation' => {
-                   'allowed' => 500,
-                   'consumed' => conversations_this_month(@account)
-                 },
-                 'non_web_inboxes' => {
-                   'allowed' => 0,
-                   'consumed' => non_web_inboxes(@account)
-                 },
-                 'agents' => {
-                   'allowed' => 2,
-                   'consumed' => agents(@account)
-                 }
-               }
-             else
-               default_limits
-             end
+    plan_limits = get_account_plan_limits
+    
+    limits = {
+      'conversation' => {
+        'allowed' => plan_limits['max_conversations_per_month'] || 0,
+        'consumed' => conversations_this_month(@account)
+      },
+      'non_web_inboxes' => {
+        'allowed' => calculate_allowed_inboxes(plan_limits),
+        'consumed' => non_web_inboxes(@account)
+      },
+      'agents' => {
+        'allowed' => plan_limits['max_agents'] || 0,
+        'consumed' => agents(@account)
+      },
+      'inboxes' => {
+        'allowed' => plan_limits['max_inboxes'] || 0,
+        'consumed' => total_inboxes(@account)
+      },
+      'captain' => @account.usage_limits[:captain]
+    }
 
     # include id in response to ensure that the store can be updated on the frontend
     render json: { id: @account.id, limits: limits }, status: :ok
@@ -59,6 +62,63 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def check_cloud_env
     render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
+  end
+
+  def get_account_plan_limits
+    cloud_plans = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value || []
+    plan_name = @account.custom_attributes['plan_name']
+    
+    # Default to Hacker plan if no plan is set
+    if plan_name.blank?
+      default_plan = cloud_plans.first || {}
+      return {
+        'max_agents' => default_plan['max_agents'] || 2,
+        'max_conversations_per_month' => default_plan['max_conversations_per_month'] || 500,
+        'max_inboxes' => default_plan['max_inboxes'] || 1,
+        'inbox_types_allowed' => default_plan['inbox_types_allowed'] || ['Channel::Api']
+      }
+    end
+    
+    # Find the specific plan
+    current_plan = cloud_plans.find { |plan| plan['name'] == plan_name }
+    
+    if current_plan
+      {
+        'max_agents' => current_plan['max_agents'] || 999,
+        'max_conversations_per_month' => current_plan['max_conversations_per_month'] || 999999,
+        'max_inboxes' => current_plan['max_inboxes'] || 999,
+        'inbox_types_allowed' => current_plan['inbox_types_allowed'] || []
+      }
+    else
+      # Fallback to default limits
+      {
+        'max_agents' => 2,
+        'max_conversations_per_month' => 500,
+        'max_inboxes' => 1,
+        'inbox_types_allowed' => ['Channel::Api']
+      }
+    end
+  end
+
+  def calculate_allowed_inboxes(plan_limits)
+    # For Hacker plan, only API channels are allowed
+    allowed_types = plan_limits['inbox_types_allowed'] || []
+    
+    if allowed_types == ['Channel::Api']
+      # Count only non-web inboxes for Hacker plan
+      return [plan_limits['max_inboxes'] || 1, 0].max - web_inboxes(@account)
+    else
+      # For other plans, allow all non-web inboxes
+      return plan_limits['max_inboxes'] || 999
+    end
+  end
+
+  def total_inboxes(account)
+    account.inboxes.count
+  end
+
+  def web_inboxes(account)
+    account.inboxes.where(channel_type: 'Channel::WebWidget').count
   end
 
   def default_limits

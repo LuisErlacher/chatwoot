@@ -1,15 +1,15 @@
 swagger: "2.0"
 info:
-  description: This is the API documentation for Chatwoot server.
+  description: Esta é a documentação da API do servidor AutomatizaSE.
   version: 1.0.0
-  title: Chatwoot
-  termsOfService:	https://www.chatwoot.com/terms-of-service/
+  title: AutomatizaSE
+  termsOfService:	https://www.automatizase.com/termos-de-servico/
   contact:
-    email: hello@chatwoot.com
+    email: contato@automatizase.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-host: app.chatwoot.com
+host: app.automatizase.com
 basePath: /
 schemes:
   - https
@@ -22,17 +22,17 @@ securityDefinitions:
     type: apiKey
     in: header
     name: api_access_token
-    description: This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user.
+    description: Este token pode ser obtido visitando a página de perfil ou via console Rails. Fornece acesso aos endpoints baseado nos níveis de permissão do usuário. Este token pode ser salvo por um sistema externo quando o usuário é criado via API, para realizar atividades em nome do usuário.
   agentBotApiKey:
     type: apiKey
     in: header
     name: api_access_token
-    description: This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis.
+    description: Este token deve ser fornecido pelo administrador do sistema ou obtido via console Rails. Este token pode ser usado para construir integrações de bot e só pode acessar APIs limitadas.
   platformAppApiKey:
     type: apiKey
     in: header
     name: api_access_token
-    description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
+    description: Este token pode ser obtido pelo administrador do sistema após criar um platformApp. Este token deve ser usado para provisionar bots de agente, contas, usuários e suas funções.
 security:
   - userApiKey: []
 
@@ -44,38 +44,38 @@ parameters:
   $ref: ./parameters/index.yml
 
 x-tagGroups:
-  - name: Platform
+  - name: Plataforma
     tags:
-      - Accounts
-      - Account Users
-      - AgentBots
-      - Users
-  - name: Application
+      - Contas
+      - Usuários da Conta
+      - Bots de Agente
+      - Usuários
+  - name: Aplicação
     tags:
-      - Account AgentBots
-      - Agents
-      - Canned Responses
-      - Contacts
-      - Contact Labels
-      - Conversation Assignment
-      - Conversation Labels
-      - Conversations
-      - Custom Attributes
-      - Custom Filters
-      - Inboxes
-      - Integrations
-      - Messages
-      - Profile
-      - Reports
-      - Teams
+      - Bots de Agente da Conta
+      - Agentes
+      - Respostas Prontas
+      - Contatos
+      - Etiquetas de Contato
+      - Atribuição de Conversa
+      - Etiquetas de Conversa
+      - Conversas
+      - Atributos Personalizados
+      - Filtros Personalizados
+      - Caixas de Entrada
+      - Integrações
+      - Mensagens
+      - Perfil
+      - Relatórios
+      - Equipes
       - Webhooks
-      - Automation Rule
-      - Help Center
-  - name: Client
+      - Regra de Automação
+      - Central de Ajuda
+  - name: Cliente
     tags:
-      - Contacts API
-      - Conversations API
-      - Messages API
-  - name: Others
+      - API de Contatos
+      - API de Conversas
+      - API de Mensagens
+  - name: Outros
     tags:
-      - CSAT Survey Page
+      - Página de Pesquisa CSAT

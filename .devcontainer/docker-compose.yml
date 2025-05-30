@@ -1,8 +1,6 @@
 # https://github.com/microsoft/vscode-dev-containers/blob/master/containers/python-3-postgres/.devcontainer/docker-compose.yml
 # https://github.com/microsoft/vscode-dev-containers/blob/master/containers/ruby-rails/.devcontainer/devcontainer.json
-#
-
-version: '3'
+# Configurado para usar Docker no WSL com usuário vscode
 
 services:
   base:
@@ -12,6 +10,7 @@ services:
       args:
         VARIANT: 'ubuntu-22.04'
         NODE_VERSION: '23.7.0'
+        PNPM_VERSION: '10.2.0'
         RUBY_VERSION: '3.3.3'
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: '1000'
@@ -25,13 +24,40 @@ services:
       args:
         VARIANT: 'ubuntu-22.04'
         NODE_VERSION: '23.7.0'
+        PNPM_VERSION: '10.2.0'
         RUBY_VERSION: '3.3.3'
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: '1000'
         USER_GID: '1000'
-
+    depends_on:
+      base:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - ..:/workspace:cached
+      # Bind mount do socket Docker para acesso do WSL
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Volumes para cache de gems e node_modules
+      - bundle-cache:/home/vscode/.bundle
+      - gem-cache:/home/vscode/.gem
+      - pnpm-cache:/home/vscode/.local/share/pnpm
+      - vscode-extensions:/home/vscode/.vscode-server/extensions
+      # Configuração bundler
+      - ../.devcontainer/.bundle:/home/vscode/.bundle/config
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      # Forçar uso do Docker do WSL
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      # Configurações bundler para usuário vscode
+      - BUNDLE_PATH=/home/vscode/.bundle
+      - GEM_HOME=/home/vscode/.gem
+      - GEM_PATH=/home/vscode/.gem
+      - BUNDLE_USER_HOME=/home/vscode
+    user: vscode
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
@@ -48,13 +74,25 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "5432:5432"
 
   redis:
-    image: redis:latest
+    image: redis:7-alpine
     restart: unless-stopped
     network_mode: service:db
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mailhog:
     restart: unless-stopped
@@ -64,3 +102,7 @@ services:
 volumes:
   postgres-data:
   redis-data:
+  bundle-cache:
+  gem-cache:
+  pnpm-cache:
+  vscode-extensions:

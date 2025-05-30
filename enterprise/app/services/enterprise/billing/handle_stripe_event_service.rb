@@ -2,26 +2,7 @@ class Enterprise::Billing::HandleStripeEventService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
-  # Each higher tier includes all features from the lower tiers
-
-  # Basic features available starting with the Startups plan
-  STARTUP_PLAN_FEATURES = %w[
-    inbound_emails
-    help_center
-    campaigns
-    team_management
-    channel_twitter
-    channel_facebook
-    channel_email
-    channel_instagram
-    captain_integration
-  ].freeze
-
-  # Additional features available starting with the Business plan
-  BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
-
-  # Additional features available only in the Enterprise plan
-  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding].freeze
+  # Features are now dynamically loaded from the plan configuration
 
   def perform(event:)
     @event = event
@@ -72,9 +53,11 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def update_plan_features
-    if default_plan?
-      disable_all_premium_features
-    else
+    # Disable all features first
+    disable_all_premium_features
+
+    # Enable features for current plan (unless it's the default Hacker plan)
+    unless default_plan?
       enable_features_for_current_plan
     end
 
@@ -85,43 +68,22 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def disable_all_premium_features
-    # Disable all features (for default Hacker plan)
-    account.disable_features(*STARTUP_PLAN_FEATURES)
-    account.disable_features(*BUSINESS_PLAN_FEATURES)
-    account.disable_features(*ENTERPRISE_PLAN_FEATURES)
+    # Get all available features from all plans
+    all_features = all_plan_features
+    account.disable_features(*all_features) if all_features.any?
   end
 
   def enable_features_for_current_plan
-    # First disable all premium features to handle downgrades
-    disable_all_premium_features
+    current_plan = find_current_account_plan
+    return if current_plan.blank?
 
-    # Then enable features based on the current plan
-    enable_plan_specific_features
+    # Enable features specific to this plan
+    plan_features = current_plan['features'] || []
+    account.enable_features(*plan_features) if plan_features.any?
   end
 
   def reset_captain_usage
     account.reset_response_usage
-  end
-
-  def enable_plan_specific_features
-    plan_name = account.custom_attributes['plan_name']
-    return if plan_name.blank?
-
-    # Enable features based on plan hierarchy
-    case plan_name
-    when 'Startups'
-      # Startups plan gets the basic features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-    when 'Business'
-      # Business plan gets Startups features + Business features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-      account.enable_features(*BUSINESS_PLAN_FEATURES)
-    when 'Enterprise'
-      # Enterprise plan gets all features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-      account.enable_features(*BUSINESS_PLAN_FEATURES)
-      account.enable_features(*ENTERPRISE_PLAN_FEATURES)
-    end
   end
 
   def subscription
@@ -137,10 +99,30 @@ class Enterprise::Billing::HandleStripeEventService
     cloud_plans.find { |config| config['product_id'].include?(plan_id) }
   end
 
+  def find_current_account_plan
+    plan_name = account.custom_attributes['plan_name']
+    return nil if plan_name.blank?
+
+    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
+    cloud_plans.find { |plan| plan['name'] == plan_name }
+  end
+
   def default_plan?
     cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
     default_plan = cloud_plans.first || {}
     account.custom_attributes['plan_name'] == default_plan['name']
+  end
+
+  def all_plan_features
+    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
+    features = []
+    
+    cloud_plans.each do |plan|
+      plan_features = plan['features'] || []
+      features.concat(plan_features)
+    end
+    
+    features.uniq
   end
 
   def enable_account_manually_managed_features

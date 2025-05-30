@@ -1,5 +1,5 @@
 {
-  "name": "Chatwoot Development Codespace",
+  "name": "Automatizase Development Codespace",
   "service": "app",
   "dockerComposeFile": "docker-compose.yml",
 
@@ -7,7 +7,7 @@
     "terminal.integrated.shell.linux": "/bin/zsh"
   },
 
-
+"workspaceFolder": "/workspace",
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "rebornix.Ruby",
@@ -25,7 +25,7 @@
   // 1025,8025 mailhog
   "forwardPorts": [8025, 3000, 3035],
 
-  "postCreateCommand": ".devcontainer/scripts/setup.sh && POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:chatwoot_prepare && yarn",
+  "postCreateCommand": "bash -l -c '.devcontainer/scripts/setup.sh &&  POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:chatwoot_prepare && pnpm install'",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"

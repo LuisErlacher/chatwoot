@@ -2,35 +2,35 @@ type: object
 properties:
   id:
     type: number
-    description: ID of the conversation
+    description: ID da conversa
   messages:
     type: array
     items:
       $ref: '#/definitions/message'
   account_id:
     type: number
-    description: Account Id
+    description: ID da Conta
   inbox_id:
     type: number
-    description: ID of the inbox
+    description: ID da caixa de entrada
   status:
     type: string
     enum: ['open', 'resolved', 'pending']
-    description: The status of the conversation
+    description: O status da conversa
   timestamp:
     type: string
-    description: The time at which conversation was created
+    description: O horário em que a conversa foi criada
   contact_last_seen_at:
     type: string
   agent_last_seen_at:
     type: string
   unread_count:
     type: number
-    description: The number of unread messages
+    description: O número de mensagens não lidas
   additional_attributes:
     type: object
-    description: The object containing additional attributes related to the conversation
+    description: O objeto contendo atributos adicionais relacionados à conversa
   custom_attributes:
     type: object
-    description: The object to save custom attributes for conversation, accepts custom attributes key and value
+    description: O objeto para salvar atributos personalizados para a conversa, aceita chave e valor de atributos personalizados
     example: { attribute_key: attribute_value, priority_conversation_number: 3 }

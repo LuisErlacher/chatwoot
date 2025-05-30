@@ -2,14 +2,14 @@
 <html>
   <head>
     <title>
-      <%= @global_config['INSTALLATION_NAME'] %>
+      <%= installation_name %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
     <% if @global_config['DISPLAY_MANIFEST'] %>
       <meta name="msapplication-TileColor" content="#1f93ff">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
       <meta name="theme-color" content="#1f93ff">
-      <meta name="description" content="Chatwoot is a customer support solution that helps companies engage customers over Messenger, Twitter, Telegram, WeChat, Whatsapp. Simply connect your channels and converse with your customers from a single place. Easily add new agents to your system and have them own and resolve conversations with customers.Chatwoot also gives you real-time reports to measure your team's performance, canned responses to easily respond to frequently asked questions and private notes for agents to collaborate among themselves.">
+      <meta name="description" content="<%= I18n.t('application.meta_description') %>">
       <% if ENV['IOS_APP_IDENTIFIER'].present? %>
         <meta name="apple-itunes-app" content='app-id=<%= ENV['IOS_APP_IDENTIFIER'] %>'>
       <% end %>
@@ -28,7 +28,7 @@
       <link class="favicon" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
       <link rel="manifest" href="/manifest.json">
     <% end %>
-    <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
+    <link rel="icon" type="image/png" sizes="512x512" href="<%= BrandConfig.logo_thumbnail %>">
     <%= csrf_meta_tags %>
     <script>
       window.chatwootConfig = {
@@ -69,7 +69,7 @@
   </head>
   <body class="text-slate-600">
     <div id="app"></div>
-    <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
+    <noscript id="noscript"><%= I18n.t('application.noscript_message') %></noscript>
     <%= yield %>
     <% if @dashboard_scripts.present? %>
       <%= @dashboard_scripts.html_safe %>

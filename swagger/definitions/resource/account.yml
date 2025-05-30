@@ -2,11 +2,11 @@ type: object
 properties:
   id:
     type: number
-    description: Account ID
+    description: ID da Conta
   name:
     type: string
-    description: Name of the account
+    description: Nome da conta
   role:
     type: string
     enum: ['administrator', 'agent']
-    description: The user role in the account
+    description: A função do usuário na conta

@@ -1,4 +1,3 @@
-
 ARG VARIANT
 
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
@@ -25,7 +24,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     tzdata \
     postgresql-client \
     libpq-dev \
-    yarn \
     git \
     imagemagick \
     tmux \
@@ -34,17 +32,27 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     npm \
     libyaml-dev
 
-# Install rbenv and ruby
+# Install rbenv and ruby for vscode user
+USER vscode
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
-    &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
-    &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
+    && echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
+    && echo 'eval "$(rbenv init -)"' >> ~/.bashrc \
+    && echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc \
+    && echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+
+ENV PATH "/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
+
+USER root
 RUN git clone https://github.com/rbenv/ruby-build.git && \
     PREFIX=/usr/local ./ruby-build/install.sh
 
+USER vscode
 RUN rbenv install $RUBY_VERSION && \
     rbenv global $RUBY_VERSION && \
-    rbenv versions
+    rbenv versions && \
+    gem install bundler
+
+USER root
 
 # Install overmind
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
@@ -66,10 +74,14 @@ COPY . /workspace
 
 # set up ruby
 COPY Gemfile Gemfile.lock ./
+USER vscode
 RUN gem install bundler && bundle install
+USER root
 
 # set up node js
 RUN npm install n -g && \
     n $NODE_VERSION
-RUN npm install --global yarn
-RUN yarn
+# Instala PNPM globalmente usando o npm gerenciado por 'n'
+RUN npm install -g pnpm@${PNPM_VERSION}
+USER vscode
+RUN pnpm i

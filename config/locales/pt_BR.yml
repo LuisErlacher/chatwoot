@@ -18,6 +18,9 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 pt_BR:
   hello: 'Olá, mundo'
+  application:
+    meta_description: 'AutomatizaSE é uma solução de atendimento ao cliente que ajuda empresas a se envolver com clientes via Messenger, Twitter, Telegram, WhatsApp, Email e muito mais. Conecte facilmente seus canais e converse com seus clientes em um só lugar.'
+    noscript_message: 'Este aplicativo funciona melhor com JavaScript habilitado.'
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
@@ -186,6 +189,7 @@ pt_BR:
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'Novas mensagens nesta conversa'
       transcript_subject: 'Transcrição da conversa'
+      attachments: 'Anexos'
     survey:
       response: 'Por favor, classifique esta conversa, %{link}'
   contacts:
@@ -197,14 +201,14 @@ pt_BR:
       description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
       name: 'Dyte'
-      description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
-      meeting_name: '%{agent_name} começou a reunião'
+      description: 'Dyte é uma plataforma de comunicação como serviço, que permite adicionar vídeo e chamadas de voz ao seu aplicativo com alguns minutos.'
+      meeting_name: 'Nome da reunião Dyte'
     slack:
       name: 'Slack'
-      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+      description: "Integre AutomatizaSE com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: 'Webhooks'
-      description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
+      description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta AutomatizaSE. Você pode se inscrever em seus eventos preferidos, e o AutomatizaSE enviará as chamadas HTTP com as atualizações.'
     dialogflow:
       name: 'Dialogflow'
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
@@ -229,16 +233,26 @@ pt_BR:
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
   public_portal:
     search:
-      search_placeholder: Pesquisar por artigo por título ou corpo...
+      search_placeholder: Pesquisar por artigo título ou conteúdo...
       empty_placeholder: Nenhum resultado encontrado.
-      loading_placeholder: Procurando...
-      results_title: Resultados de pesquisa
+      loading_placeholder: Pesquisando...
+      results_title: Resultados da busca
     toc_header: 'Nesta página'
+    toc:
+      title: Neste artigo
+      content: 'Conteúdo'
     hero:
-      sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
+      sub_title: Pesquise aqui artigos ou navegue pelas categorias abaixo.
     common:
-      home: Principal
+      home: Home
       last_updated_on: Última atualização em %{last_updated_on}
+      search: Pesquisar
+      submit: Enviar
+      preview: Visualização
+      edit: Editar
+      close: Fechar
+      go_to_homepage: Ir para a página principal
+      view_docs: Ver documentos
       view_all_articles: Visualizar tudo
       article: artigo
       articles: artigos
@@ -248,6 +262,18 @@ pt_BR:
       others: outros
       by: Por
       no_articles: Não há artigos aqui
+    sidebar:
+      articles:
+        zero: artigos
+        one: artigo
+        other: artigos
+    category:
+      description: Navegue pelos artigos nesta categoria.
+    article:
+      draft: Rascunho
+      last_updated_on: 'Artigo foi atualizado pela última vez em %{date}'
+      author_by: 'Por %{author}'
+      read_time: '%{read_time} min read'
     footer:
       made_with: Criado com
     header:
@@ -306,3 +332,161 @@ pt_BR:
 
       Transcrição:
       %{format_messages}
+  super_admin:
+    dashboard:
+      title: 'Painel Administrativo'
+    seed_data:
+      description: 'Clique no botão para gerar dados de demonstração nesta conta para apresentações.'
+      warning: 'Nota: Isso irá limpar todos os dados existentes nesta conta.'
+      button: 'Gerar Dados de Demonstração'
+    reset_cache:
+      description: 'Isso irá limpar as chaves de cache IndexedDB do Redis. O próximo carregamento buscará os dados do backend.'
+      button: 'Limpar Cache do Frontend'
+
+  # Configurações de data e hora brasileiras
+  date:
+    formats:
+      default: '%d/%m/%Y'
+      short: '%d/%m'
+      long: '%d de %B de %Y'
+    day_names:
+      - domingo
+      - segunda-feira
+      - terça-feira
+      - quarta-feira
+      - quinta-feira
+      - sexta-feira
+      - sábado
+    abbr_day_names:
+      - dom
+      - seg
+      - ter
+      - qua
+      - qui
+      - sex
+      - sáb
+    month_names:
+      - ~
+      - janeiro
+      - fevereiro
+      - março
+      - abril
+      - maio
+      - junho
+      - julho
+      - agosto
+      - setembro
+      - outubro
+      - novembro
+      - dezembro
+    abbr_month_names:
+      - ~
+      - jan
+      - fev
+      - mar
+      - abr
+      - mai
+      - jun
+      - jul
+      - ago
+      - set
+      - out
+      - nov
+      - dez
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: '%d/%m/%Y %H:%M'
+      short: '%d/%m %H:%M'
+      long: '%d de %B de %Y às %H:%M'
+      time: '%H:%M'
+    am: 'AM'
+    pm: 'PM'
+
+  datetime:
+    distance_in_words:
+      half_a_minute: 'meio minuto'
+      less_than_x_seconds:
+        one: 'menos de 1 segundo'
+        other: 'menos de %{count} segundos'
+      x_seconds:
+        one: '1 segundo'
+        other: '%{count} segundos'
+      less_than_x_minutes:
+        one: 'menos de 1 minuto'
+        other: 'menos de %{count} minutos'
+      x_minutes:
+        one: '1 minuto'
+        other: '%{count} minutos'
+      about_x_hours:
+        one: 'aproximadamente 1 hora'
+        other: 'aproximadamente %{count} horas'
+      x_days:
+        one: '1 dia'
+        other: '%{count} dias'
+      about_x_months:
+        one: 'aproximadamente 1 mês'
+        other: 'aproximadamente %{count} meses'
+      x_months:
+        one: '1 mês'
+        other: '%{count} meses'
+      about_x_years:
+        one: 'aproximadamente 1 ano'
+        other: 'aproximadamente %{count} anos'
+      over_x_years:
+        one: 'mais de 1 ano'
+        other: 'mais de %{count} anos'
+      almost_x_years:
+        one: 'quase 1 ano'
+        other: 'quase %{count} anos'
+    prompts:
+      second: 'Segundo'
+      minute: 'Minuto'
+      hour: 'Hora'
+      day: 'Dia'
+      month: 'Mês'
+      year: 'Ano'
+
+  number:
+    format:
+      separator: ','
+      delimiter: '.'
+      precision: 2
+      significant: false
+      strip_insignificant_zeros: false
+    currency:
+      format:
+        format: 'R$ %n'
+        unit: 'R$'
+        separator: ','
+        delimiter: '.'
+        precision: 2
+    percentage:
+      format:
+        delimiter: '.'
+        separator: ','
+    precision:
+      format:
+        delimiter: '.'
+        separator: ','
+    human:
+      format:
+        delimiter: '.'
+        separator: ','
+        precision: 2
+      storage_units:
+        format: '%n %u'
+        units:
+          byte:
+            one: 'Byte'
+            other: 'Bytes'
+          kb: 'KB'
+          mb: 'MB'
+          gb: 'GB'
+          tb: 'TB'
+          pb: 'PB'
+          eb: 'EB'

@@ -210,6 +210,33 @@ Marcelo é dono de uma agência de marketing que precisa de uma solução de ate
 *   Manter a plataforma atualizada quando o Chatwoot original receber novos recursos.
 *   Implementar fluxo de cadastro de novo cliente mantendo isolamento de contas.
 
+### 8.4 Arquitetura de Desenvolvimento
+
+*   **Sistema de Banco de Dados**: PostgreSQL executado via Docker container para garantir isolamento e consistência do ambiente de desenvolvimento.
+*   **Cache e Sessions**: Redis executado via Docker container para armazenamento de sessões e cache.
+*   **Aplicação Rails**: Executada localmente em modo desenvolvimento, conectando aos serviços Docker.
+*   **Frontend Vue.js**: Compilado e servido localmente durante desenvolvimento.
+
+#### Configuração Docker
+
+*   **PostgreSQL Container**: 
+    *   Porta padrão: 5432
+    *   Banco de dados: automatizase_development
+    *   Configuração via docker-compose.yml ou comando docker run
+    *   Volumes persistentes para dados
+*   **Redis Container**:
+    *   Porta padrão: 6379
+    *   Configuração via docker-compose.yml ou comando docker run
+    *   Usado para cache, sessions e background jobs
+
+#### Benefícios da Arquitetura Docker
+
+*   Isolamento de dependências
+*   Consistência entre ambientes de desenvolvimento e produção
+*   Facilidade de setup para novos desenvolvedores
+*   Versionamento de serviços de infraestrutura
+*   Redução de conflitos de versão de banco de dados
+
 ## 9. Milestones & sequencing
 
 ### 9.1 Project estimate
