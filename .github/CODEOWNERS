@@ -1,2 +1,9 @@
-## All enterprise related files should be reviewed by sojan before merging
-/enterprise/* @sojan-official
+# AutomatizaSE Code Owners
+# Substitua pelos seus usuários
+
+# Arquivos enterprise
+/enterprise/* @LuisErlacher
+
+# Configurações do sistema
+/config/* @LuisErlacher
+/docker/* @LuisErlacher
